@@ -1,8 +1,10 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import {env} from "~/env"
+import GoogleProvider from "next-auth/providers/google"
 
 import { db } from "~/server/db";
+import { fastifyRequestHandler } from "@trpc/server/adapters/fastify";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -32,7 +34,10 @@ declare module "next-auth" {
  */
 export const authConfig = {
   providers: [
-    DiscordProvider,
+    GoogleProvider({
+      clientId: env.AUTH_GOOGLE_ID,
+      clientSecret: env.AUTH_GOOGLE_SECRET
+    }),
     /**
      * ...add more providers here.
      *
@@ -43,14 +48,33 @@ export const authConfig = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+
   adapter: PrismaAdapter(db),
-  callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+  pages: {
+    signIn: "/signin"
   },
+  callbacks: {
+    authorized({auth, request: {nextUrl}}) {
+      const isLoggedIn = !!auth?.user;
+      const isOnSignIn = nextUrl.pathname.startsWith("/signin")
+
+      if (!isLoggedIn && isOnSignIn) {
+        return true
+      }
+
+      if (!isLoggedIn) {
+        return false
+      }
+
+      if (isLoggedIn && isOnSignIn) {
+        return Response.redirect(new URL("/", nextUrl))
+      }
+      return true;
+    },
+      session: ({ session, user }) => ({
+      ...session,
+      user: { ...session.user, id: user.id },
+    }),
+
+    }
 } satisfies NextAuthConfig;
