@@ -12,6 +12,11 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+enum TopicType {
+  DAILY
+  WEEKLY
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -39,6 +44,27 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+
+  authorProfile Author? @relation("UsertoAuthor")
+}
+
+model Author {
+  id        String  @id
+  user      User    @relation("UsertoAuthor", fields: [id], references: [id], onDelete: Cascade)
+  name      String
+  numTopics Int     @default(0)
+  topics    Topic[]
+}
+
+model Topic {
+  id          String    @id @default(cuid())
+  title       String
+  content     String    @db.Text
+  type        TopicType
+  publishedAt DateTime  @default(now())
+
+  authorId String
+  author   Author @relation(fields: [authorId], references: [id])
 }
 
 model VerificationToken {
