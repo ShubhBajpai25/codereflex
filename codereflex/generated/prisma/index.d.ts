@@ -24,11 +24,6 @@ export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
- * Model Author
- * 
- */
-export type Author = $Result.DefaultSelection<Prisma.$AuthorPayload>
-/**
  * Model Topic
  * 
  */
@@ -198,16 +193,6 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.author`: Exposes CRUD operations for the **Author** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Authors
-    * const authors = await prisma.author.findMany()
-    * ```
-    */
-  get author(): Prisma.AuthorDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.topic`: Exposes CRUD operations for the **Topic** model.
@@ -681,7 +666,6 @@ export namespace Prisma {
   export const ModelName: {
     Account: 'Account',
     User: 'User',
-    Author: 'Author',
     Topic: 'Topic',
     VerificationToken: 'VerificationToken',
     Session: 'Session'
@@ -703,7 +687,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "account" | "user" | "author" | "topic" | "verificationToken" | "session"
+      modelProps: "account" | "user" | "topic" | "verificationToken" | "session"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -852,80 +836,6 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
-          }
-        }
-      }
-      Author: {
-        payload: Prisma.$AuthorPayload<ExtArgs>
-        fields: Prisma.AuthorFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.AuthorFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuthorPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.AuthorFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuthorPayload>
-          }
-          findFirst: {
-            args: Prisma.AuthorFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuthorPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.AuthorFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuthorPayload>
-          }
-          findMany: {
-            args: Prisma.AuthorFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuthorPayload>[]
-          }
-          create: {
-            args: Prisma.AuthorCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuthorPayload>
-          }
-          createMany: {
-            args: Prisma.AuthorCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.AuthorCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuthorPayload>[]
-          }
-          delete: {
-            args: Prisma.AuthorDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuthorPayload>
-          }
-          update: {
-            args: Prisma.AuthorUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuthorPayload>
-          }
-          deleteMany: {
-            args: Prisma.AuthorDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.AuthorUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.AuthorUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuthorPayload>[]
-          }
-          upsert: {
-            args: Prisma.AuthorUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuthorPayload>
-          }
-          aggregate: {
-            args: Prisma.AuthorAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateAuthor>
-          }
-          groupBy: {
-            args: Prisma.AuthorGroupByArgs<ExtArgs>
-            result: $Utils.Optional<AuthorGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.AuthorCountArgs<ExtArgs>
-            result: $Utils.Optional<AuthorCountAggregateOutputType> | number
           }
         }
       }
@@ -1249,7 +1159,6 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     account?: AccountOmit
     user?: UserOmit
-    author?: AuthorOmit
     topic?: TopicOmit
     verificationToken?: VerificationTokenOmit
     session?: SessionOmit
@@ -1335,11 +1244,13 @@ export namespace Prisma {
   export type UserCountOutputType = {
     accounts: number
     sessions: number
+    savedTopics: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+    savedTopics?: boolean | UserCountOutputTypeCountSavedTopicsArgs
   }
 
   // Custom InputTypes
@@ -1367,35 +1278,42 @@ export namespace Prisma {
     where?: SessionWhereInput
   }
 
-
   /**
-   * Count Type AuthorCountOutputType
+   * UserCountOutputType without action
    */
-
-  export type AuthorCountOutputType = {
-    topics: number
+  export type UserCountOutputTypeCountSavedTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TopicWhereInput
   }
 
-  export type AuthorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    topics?: boolean | AuthorCountOutputTypeCountTopicsArgs
+
+  /**
+   * Count Type TopicCountOutputType
+   */
+
+  export type TopicCountOutputType = {
+    savedBy: number
+  }
+
+  export type TopicCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    savedBy?: boolean | TopicCountOutputTypeCountSavedByArgs
   }
 
   // Custom InputTypes
   /**
-   * AuthorCountOutputType without action
+   * TopicCountOutputType without action
    */
-  export type AuthorCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AuthorCountOutputType
+     * Select specific fields to fetch from the TopicCountOutputType
      */
-    select?: AuthorCountOutputTypeSelect<ExtArgs> | null
+    select?: TopicCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * AuthorCountOutputType without action
+   * TopicCountOutputType without action
    */
-  export type AuthorCountOutputTypeCountTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TopicWhereInput
+  export type TopicCountOutputTypeCountSavedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
   }
 
 
@@ -2752,7 +2670,7 @@ export namespace Prisma {
     image?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
-    authorProfile?: boolean | User$authorProfileArgs<ExtArgs>
+    savedTopics?: boolean | User$savedTopicsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2784,7 +2702,7 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
-    authorProfile?: boolean | User$authorProfileArgs<ExtArgs>
+    savedTopics?: boolean | User$savedTopicsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2795,7 +2713,7 @@ export namespace Prisma {
     objects: {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
-      authorProfile: Prisma.$AuthorPayload<ExtArgs> | null
+      savedTopics: Prisma.$TopicPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3199,7 +3117,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    authorProfile<T extends User$authorProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$authorProfileArgs<ExtArgs>>): Prisma__AuthorClient<$Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    savedTopics<T extends User$savedTopicsArgs<ExtArgs> = {}>(args?: Subset<T, User$savedTopicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3670,22 +3588,27 @@ export namespace Prisma {
   }
 
   /**
-   * User.authorProfile
+   * User.savedTopics
    */
-  export type User$authorProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$savedTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Author
+     * Select specific fields to fetch from the Topic
      */
-    select?: AuthorSelect<ExtArgs> | null
+    select?: TopicSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Author
+     * Omit specific fields from the Topic
      */
-    omit?: AuthorOmit<ExtArgs> | null
+    omit?: TopicOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AuthorInclude<ExtArgs> | null
-    where?: AuthorWhereInput
+    include?: TopicInclude<ExtArgs> | null
+    where?: TopicWhereInput
+    orderBy?: TopicOrderByWithRelationInput | TopicOrderByWithRelationInput[]
+    cursor?: TopicWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TopicScalarFieldEnum | TopicScalarFieldEnum[]
   }
 
   /**
@@ -3708,1102 +3631,6 @@ export namespace Prisma {
 
 
   /**
-   * Model Author
-   */
-
-  export type AggregateAuthor = {
-    _count: AuthorCountAggregateOutputType | null
-    _avg: AuthorAvgAggregateOutputType | null
-    _sum: AuthorSumAggregateOutputType | null
-    _min: AuthorMinAggregateOutputType | null
-    _max: AuthorMaxAggregateOutputType | null
-  }
-
-  export type AuthorAvgAggregateOutputType = {
-    numTopics: number | null
-  }
-
-  export type AuthorSumAggregateOutputType = {
-    numTopics: number | null
-  }
-
-  export type AuthorMinAggregateOutputType = {
-    id: string | null
-    name: string | null
-    numTopics: number | null
-  }
-
-  export type AuthorMaxAggregateOutputType = {
-    id: string | null
-    name: string | null
-    numTopics: number | null
-  }
-
-  export type AuthorCountAggregateOutputType = {
-    id: number
-    name: number
-    numTopics: number
-    _all: number
-  }
-
-
-  export type AuthorAvgAggregateInputType = {
-    numTopics?: true
-  }
-
-  export type AuthorSumAggregateInputType = {
-    numTopics?: true
-  }
-
-  export type AuthorMinAggregateInputType = {
-    id?: true
-    name?: true
-    numTopics?: true
-  }
-
-  export type AuthorMaxAggregateInputType = {
-    id?: true
-    name?: true
-    numTopics?: true
-  }
-
-  export type AuthorCountAggregateInputType = {
-    id?: true
-    name?: true
-    numTopics?: true
-    _all?: true
-  }
-
-  export type AuthorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Author to aggregate.
-     */
-    where?: AuthorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Authors to fetch.
-     */
-    orderBy?: AuthorOrderByWithRelationInput | AuthorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: AuthorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Authors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Authors.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Authors
-    **/
-    _count?: true | AuthorCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: AuthorAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: AuthorSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: AuthorMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: AuthorMaxAggregateInputType
-  }
-
-  export type GetAuthorAggregateType<T extends AuthorAggregateArgs> = {
-        [P in keyof T & keyof AggregateAuthor]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateAuthor[P]>
-      : GetScalarType<T[P], AggregateAuthor[P]>
-  }
-
-
-
-
-  export type AuthorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AuthorWhereInput
-    orderBy?: AuthorOrderByWithAggregationInput | AuthorOrderByWithAggregationInput[]
-    by: AuthorScalarFieldEnum[] | AuthorScalarFieldEnum
-    having?: AuthorScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: AuthorCountAggregateInputType | true
-    _avg?: AuthorAvgAggregateInputType
-    _sum?: AuthorSumAggregateInputType
-    _min?: AuthorMinAggregateInputType
-    _max?: AuthorMaxAggregateInputType
-  }
-
-  export type AuthorGroupByOutputType = {
-    id: string
-    name: string
-    numTopics: number
-    _count: AuthorCountAggregateOutputType | null
-    _avg: AuthorAvgAggregateOutputType | null
-    _sum: AuthorSumAggregateOutputType | null
-    _min: AuthorMinAggregateOutputType | null
-    _max: AuthorMaxAggregateOutputType | null
-  }
-
-  type GetAuthorGroupByPayload<T extends AuthorGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<AuthorGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof AuthorGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], AuthorGroupByOutputType[P]>
-            : GetScalarType<T[P], AuthorGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type AuthorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    numTopics?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    topics?: boolean | Author$topicsArgs<ExtArgs>
-    _count?: boolean | AuthorCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["author"]>
-
-  export type AuthorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    numTopics?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["author"]>
-
-  export type AuthorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    numTopics?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["author"]>
-
-  export type AuthorSelectScalar = {
-    id?: boolean
-    name?: boolean
-    numTopics?: boolean
-  }
-
-  export type AuthorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "numTopics", ExtArgs["result"]["author"]>
-  export type AuthorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    topics?: boolean | Author$topicsArgs<ExtArgs>
-    _count?: boolean | AuthorCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type AuthorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type AuthorIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-
-  export type $AuthorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Author"
-    objects: {
-      user: Prisma.$UserPayload<ExtArgs>
-      topics: Prisma.$TopicPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      name: string
-      numTopics: number
-    }, ExtArgs["result"]["author"]>
-    composites: {}
-  }
-
-  type AuthorGetPayload<S extends boolean | null | undefined | AuthorDefaultArgs> = $Result.GetResult<Prisma.$AuthorPayload, S>
-
-  type AuthorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<AuthorFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: AuthorCountAggregateInputType | true
-    }
-
-  export interface AuthorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Author'], meta: { name: 'Author' } }
-    /**
-     * Find zero or one Author that matches the filter.
-     * @param {AuthorFindUniqueArgs} args - Arguments to find a Author
-     * @example
-     * // Get one Author
-     * const author = await prisma.author.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends AuthorFindUniqueArgs>(args: SelectSubset<T, AuthorFindUniqueArgs<ExtArgs>>): Prisma__AuthorClient<$Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Author that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {AuthorFindUniqueOrThrowArgs} args - Arguments to find a Author
-     * @example
-     * // Get one Author
-     * const author = await prisma.author.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends AuthorFindUniqueOrThrowArgs>(args: SelectSubset<T, AuthorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AuthorClient<$Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Author that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthorFindFirstArgs} args - Arguments to find a Author
-     * @example
-     * // Get one Author
-     * const author = await prisma.author.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends AuthorFindFirstArgs>(args?: SelectSubset<T, AuthorFindFirstArgs<ExtArgs>>): Prisma__AuthorClient<$Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Author that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthorFindFirstOrThrowArgs} args - Arguments to find a Author
-     * @example
-     * // Get one Author
-     * const author = await prisma.author.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends AuthorFindFirstOrThrowArgs>(args?: SelectSubset<T, AuthorFindFirstOrThrowArgs<ExtArgs>>): Prisma__AuthorClient<$Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Authors that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthorFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Authors
-     * const authors = await prisma.author.findMany()
-     * 
-     * // Get first 10 Authors
-     * const authors = await prisma.author.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const authorWithIdOnly = await prisma.author.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends AuthorFindManyArgs>(args?: SelectSubset<T, AuthorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Author.
-     * @param {AuthorCreateArgs} args - Arguments to create a Author.
-     * @example
-     * // Create one Author
-     * const Author = await prisma.author.create({
-     *   data: {
-     *     // ... data to create a Author
-     *   }
-     * })
-     * 
-     */
-    create<T extends AuthorCreateArgs>(args: SelectSubset<T, AuthorCreateArgs<ExtArgs>>): Prisma__AuthorClient<$Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Authors.
-     * @param {AuthorCreateManyArgs} args - Arguments to create many Authors.
-     * @example
-     * // Create many Authors
-     * const author = await prisma.author.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends AuthorCreateManyArgs>(args?: SelectSubset<T, AuthorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Authors and returns the data saved in the database.
-     * @param {AuthorCreateManyAndReturnArgs} args - Arguments to create many Authors.
-     * @example
-     * // Create many Authors
-     * const author = await prisma.author.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Authors and only return the `id`
-     * const authorWithIdOnly = await prisma.author.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends AuthorCreateManyAndReturnArgs>(args?: SelectSubset<T, AuthorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Author.
-     * @param {AuthorDeleteArgs} args - Arguments to delete one Author.
-     * @example
-     * // Delete one Author
-     * const Author = await prisma.author.delete({
-     *   where: {
-     *     // ... filter to delete one Author
-     *   }
-     * })
-     * 
-     */
-    delete<T extends AuthorDeleteArgs>(args: SelectSubset<T, AuthorDeleteArgs<ExtArgs>>): Prisma__AuthorClient<$Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Author.
-     * @param {AuthorUpdateArgs} args - Arguments to update one Author.
-     * @example
-     * // Update one Author
-     * const author = await prisma.author.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends AuthorUpdateArgs>(args: SelectSubset<T, AuthorUpdateArgs<ExtArgs>>): Prisma__AuthorClient<$Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Authors.
-     * @param {AuthorDeleteManyArgs} args - Arguments to filter Authors to delete.
-     * @example
-     * // Delete a few Authors
-     * const { count } = await prisma.author.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends AuthorDeleteManyArgs>(args?: SelectSubset<T, AuthorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Authors.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthorUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Authors
-     * const author = await prisma.author.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends AuthorUpdateManyArgs>(args: SelectSubset<T, AuthorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Authors and returns the data updated in the database.
-     * @param {AuthorUpdateManyAndReturnArgs} args - Arguments to update many Authors.
-     * @example
-     * // Update many Authors
-     * const author = await prisma.author.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Authors and only return the `id`
-     * const authorWithIdOnly = await prisma.author.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends AuthorUpdateManyAndReturnArgs>(args: SelectSubset<T, AuthorUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Author.
-     * @param {AuthorUpsertArgs} args - Arguments to update or create a Author.
-     * @example
-     * // Update or create a Author
-     * const author = await prisma.author.upsert({
-     *   create: {
-     *     // ... data to create a Author
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Author we want to update
-     *   }
-     * })
-     */
-    upsert<T extends AuthorUpsertArgs>(args: SelectSubset<T, AuthorUpsertArgs<ExtArgs>>): Prisma__AuthorClient<$Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Authors.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthorCountArgs} args - Arguments to filter Authors to count.
-     * @example
-     * // Count the number of Authors
-     * const count = await prisma.author.count({
-     *   where: {
-     *     // ... the filter for the Authors we want to count
-     *   }
-     * })
-    **/
-    count<T extends AuthorCountArgs>(
-      args?: Subset<T, AuthorCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], AuthorCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Author.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends AuthorAggregateArgs>(args: Subset<T, AuthorAggregateArgs>): Prisma.PrismaPromise<GetAuthorAggregateType<T>>
-
-    /**
-     * Group by Author.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthorGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends AuthorGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AuthorGroupByArgs['orderBy'] }
-        : { orderBy?: AuthorGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, AuthorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuthorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Author model
-   */
-  readonly fields: AuthorFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Author.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__AuthorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    topics<T extends Author$topicsArgs<ExtArgs> = {}>(args?: Subset<T, Author$topicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Author model
-   */
-  interface AuthorFieldRefs {
-    readonly id: FieldRef<"Author", 'String'>
-    readonly name: FieldRef<"Author", 'String'>
-    readonly numTopics: FieldRef<"Author", 'Int'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Author findUnique
-   */
-  export type AuthorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Author
-     */
-    select?: AuthorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Author
-     */
-    omit?: AuthorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthorInclude<ExtArgs> | null
-    /**
-     * Filter, which Author to fetch.
-     */
-    where: AuthorWhereUniqueInput
-  }
-
-  /**
-   * Author findUniqueOrThrow
-   */
-  export type AuthorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Author
-     */
-    select?: AuthorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Author
-     */
-    omit?: AuthorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthorInclude<ExtArgs> | null
-    /**
-     * Filter, which Author to fetch.
-     */
-    where: AuthorWhereUniqueInput
-  }
-
-  /**
-   * Author findFirst
-   */
-  export type AuthorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Author
-     */
-    select?: AuthorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Author
-     */
-    omit?: AuthorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthorInclude<ExtArgs> | null
-    /**
-     * Filter, which Author to fetch.
-     */
-    where?: AuthorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Authors to fetch.
-     */
-    orderBy?: AuthorOrderByWithRelationInput | AuthorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Authors.
-     */
-    cursor?: AuthorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Authors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Authors.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Authors.
-     */
-    distinct?: AuthorScalarFieldEnum | AuthorScalarFieldEnum[]
-  }
-
-  /**
-   * Author findFirstOrThrow
-   */
-  export type AuthorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Author
-     */
-    select?: AuthorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Author
-     */
-    omit?: AuthorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthorInclude<ExtArgs> | null
-    /**
-     * Filter, which Author to fetch.
-     */
-    where?: AuthorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Authors to fetch.
-     */
-    orderBy?: AuthorOrderByWithRelationInput | AuthorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Authors.
-     */
-    cursor?: AuthorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Authors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Authors.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Authors.
-     */
-    distinct?: AuthorScalarFieldEnum | AuthorScalarFieldEnum[]
-  }
-
-  /**
-   * Author findMany
-   */
-  export type AuthorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Author
-     */
-    select?: AuthorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Author
-     */
-    omit?: AuthorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthorInclude<ExtArgs> | null
-    /**
-     * Filter, which Authors to fetch.
-     */
-    where?: AuthorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Authors to fetch.
-     */
-    orderBy?: AuthorOrderByWithRelationInput | AuthorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Authors.
-     */
-    cursor?: AuthorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Authors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Authors.
-     */
-    skip?: number
-    distinct?: AuthorScalarFieldEnum | AuthorScalarFieldEnum[]
-  }
-
-  /**
-   * Author create
-   */
-  export type AuthorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Author
-     */
-    select?: AuthorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Author
-     */
-    omit?: AuthorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthorInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Author.
-     */
-    data: XOR<AuthorCreateInput, AuthorUncheckedCreateInput>
-  }
-
-  /**
-   * Author createMany
-   */
-  export type AuthorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Authors.
-     */
-    data: AuthorCreateManyInput | AuthorCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Author createManyAndReturn
-   */
-  export type AuthorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Author
-     */
-    select?: AuthorSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Author
-     */
-    omit?: AuthorOmit<ExtArgs> | null
-    /**
-     * The data used to create many Authors.
-     */
-    data: AuthorCreateManyInput | AuthorCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthorIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Author update
-   */
-  export type AuthorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Author
-     */
-    select?: AuthorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Author
-     */
-    omit?: AuthorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthorInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Author.
-     */
-    data: XOR<AuthorUpdateInput, AuthorUncheckedUpdateInput>
-    /**
-     * Choose, which Author to update.
-     */
-    where: AuthorWhereUniqueInput
-  }
-
-  /**
-   * Author updateMany
-   */
-  export type AuthorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Authors.
-     */
-    data: XOR<AuthorUpdateManyMutationInput, AuthorUncheckedUpdateManyInput>
-    /**
-     * Filter which Authors to update
-     */
-    where?: AuthorWhereInput
-    /**
-     * Limit how many Authors to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Author updateManyAndReturn
-   */
-  export type AuthorUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Author
-     */
-    select?: AuthorSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Author
-     */
-    omit?: AuthorOmit<ExtArgs> | null
-    /**
-     * The data used to update Authors.
-     */
-    data: XOR<AuthorUpdateManyMutationInput, AuthorUncheckedUpdateManyInput>
-    /**
-     * Filter which Authors to update
-     */
-    where?: AuthorWhereInput
-    /**
-     * Limit how many Authors to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthorIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Author upsert
-   */
-  export type AuthorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Author
-     */
-    select?: AuthorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Author
-     */
-    omit?: AuthorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthorInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Author to update in case it exists.
-     */
-    where: AuthorWhereUniqueInput
-    /**
-     * In case the Author found by the `where` argument doesn't exist, create a new Author with this data.
-     */
-    create: XOR<AuthorCreateInput, AuthorUncheckedCreateInput>
-    /**
-     * In case the Author was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<AuthorUpdateInput, AuthorUncheckedUpdateInput>
-  }
-
-  /**
-   * Author delete
-   */
-  export type AuthorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Author
-     */
-    select?: AuthorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Author
-     */
-    omit?: AuthorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthorInclude<ExtArgs> | null
-    /**
-     * Filter which Author to delete.
-     */
-    where: AuthorWhereUniqueInput
-  }
-
-  /**
-   * Author deleteMany
-   */
-  export type AuthorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Authors to delete
-     */
-    where?: AuthorWhereInput
-    /**
-     * Limit how many Authors to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Author.topics
-   */
-  export type Author$topicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Topic
-     */
-    select?: TopicSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Topic
-     */
-    omit?: TopicOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TopicInclude<ExtArgs> | null
-    where?: TopicWhereInput
-    orderBy?: TopicOrderByWithRelationInput | TopicOrderByWithRelationInput[]
-    cursor?: TopicWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TopicScalarFieldEnum | TopicScalarFieldEnum[]
-  }
-
-  /**
-   * Author without action
-   */
-  export type AuthorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Author
-     */
-    select?: AuthorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Author
-     */
-    omit?: AuthorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthorInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model Topic
    */
 
@@ -4815,58 +3642,66 @@ export namespace Prisma {
 
   export type TopicMinAggregateOutputType = {
     id: string | null
+    image: string | null
     title: string | null
     content: string | null
     type: $Enums.TopicType | null
+    miniDesc: string | null
     publishedAt: Date | null
-    authorId: string | null
   }
 
   export type TopicMaxAggregateOutputType = {
     id: string | null
+    image: string | null
     title: string | null
     content: string | null
     type: $Enums.TopicType | null
+    miniDesc: string | null
     publishedAt: Date | null
-    authorId: string | null
   }
 
   export type TopicCountAggregateOutputType = {
     id: number
+    image: number
     title: number
     content: number
     type: number
+    tags: number
+    miniDesc: number
     publishedAt: number
-    authorId: number
     _all: number
   }
 
 
   export type TopicMinAggregateInputType = {
     id?: true
+    image?: true
     title?: true
     content?: true
     type?: true
+    miniDesc?: true
     publishedAt?: true
-    authorId?: true
   }
 
   export type TopicMaxAggregateInputType = {
     id?: true
+    image?: true
     title?: true
     content?: true
     type?: true
+    miniDesc?: true
     publishedAt?: true
-    authorId?: true
   }
 
   export type TopicCountAggregateInputType = {
     id?: true
+    image?: true
     title?: true
     content?: true
     type?: true
+    tags?: true
+    miniDesc?: true
     publishedAt?: true
-    authorId?: true
     _all?: true
   }
 
@@ -4944,11 +3779,13 @@ export namespace Prisma {
 
   export type TopicGroupByOutputType = {
     id: string
+    image: string | null
     title: string
     content: string
     type: $Enums.TopicType
+    tags: string[]
+    miniDesc: string
     publishedAt: Date
-    authorId: string
     _count: TopicCountAggregateOutputType | null
     _min: TopicMinAggregateOutputType | null
     _max: TopicMaxAggregateOutputType | null
@@ -4970,66 +3807,72 @@ export namespace Prisma {
 
   export type TopicSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    image?: boolean
     title?: boolean
     content?: boolean
     type?: boolean
+    tags?: boolean
+    miniDesc?: boolean
     publishedAt?: boolean
-    authorId?: boolean
-    author?: boolean | AuthorDefaultArgs<ExtArgs>
+    savedBy?: boolean | Topic$savedByArgs<ExtArgs>
+    _count?: boolean | TopicCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topic"]>
 
   export type TopicSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    image?: boolean
     title?: boolean
     content?: boolean
     type?: boolean
+    tags?: boolean
+    miniDesc?: boolean
     publishedAt?: boolean
-    authorId?: boolean
-    author?: boolean | AuthorDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topic"]>
 
   export type TopicSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    image?: boolean
     title?: boolean
     content?: boolean
     type?: boolean
+    tags?: boolean
+    miniDesc?: boolean
     publishedAt?: boolean
-    authorId?: boolean
-    author?: boolean | AuthorDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topic"]>
 
   export type TopicSelectScalar = {
     id?: boolean
+    image?: boolean
     title?: boolean
     content?: boolean
     type?: boolean
+    tags?: boolean
+    miniDesc?: boolean
     publishedAt?: boolean
-    authorId?: boolean
   }
 
-  export type TopicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "type" | "publishedAt" | "authorId", ExtArgs["result"]["topic"]>
+  export type TopicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "title" | "content" | "type" | "tags" | "miniDesc" | "publishedAt", ExtArgs["result"]["topic"]>
   export type TopicInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    author?: boolean | AuthorDefaultArgs<ExtArgs>
+    savedBy?: boolean | Topic$savedByArgs<ExtArgs>
+    _count?: boolean | TopicCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type TopicIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    author?: boolean | AuthorDefaultArgs<ExtArgs>
-  }
-  export type TopicIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    author?: boolean | AuthorDefaultArgs<ExtArgs>
-  }
+  export type TopicIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TopicIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $TopicPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Topic"
     objects: {
-      author: Prisma.$AuthorPayload<ExtArgs>
+      savedBy: Prisma.$UserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      image: string | null
       title: string
       content: string
       type: $Enums.TopicType
+      tags: string[]
+      miniDesc: string
       publishedAt: Date
-      authorId: string
     }, ExtArgs["result"]["topic"]>
     composites: {}
   }
@@ -5424,7 +4267,7 @@ export namespace Prisma {
    */
   export interface Prisma__TopicClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    author<T extends AuthorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AuthorDefaultArgs<ExtArgs>>): Prisma__AuthorClient<$Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    savedBy<T extends Topic$savedByArgs<ExtArgs> = {}>(args?: Subset<T, Topic$savedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5455,11 +4298,13 @@ export namespace Prisma {
    */
   interface TopicFieldRefs {
     readonly id: FieldRef<"Topic", 'String'>
+    readonly image: FieldRef<"Topic", 'String'>
     readonly title: FieldRef<"Topic", 'String'>
     readonly content: FieldRef<"Topic", 'String'>
     readonly type: FieldRef<"Topic", 'TopicType'>
+    readonly tags: FieldRef<"Topic", 'String[]'>
+    readonly miniDesc: FieldRef<"Topic", 'String'>
     readonly publishedAt: FieldRef<"Topic", 'DateTime'>
-    readonly authorId: FieldRef<"Topic", 'String'>
   }
     
 
@@ -5709,10 +4554,6 @@ export namespace Prisma {
      */
     data: TopicCreateManyInput | TopicCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TopicIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -5783,10 +4624,6 @@ export namespace Prisma {
      * Limit how many Topics to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TopicIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -5853,6 +4690,30 @@ export namespace Prisma {
      * Limit how many Topics to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Topic.savedBy
+   */
+  export type Topic$savedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
   /**
@@ -7931,22 +6792,15 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-  export const AuthorScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    numTopics: 'numTopics'
-  };
-
-  export type AuthorScalarFieldEnum = (typeof AuthorScalarFieldEnum)[keyof typeof AuthorScalarFieldEnum]
-
-
   export const TopicScalarFieldEnum: {
     id: 'id',
+    image: 'image',
     title: 'title',
     content: 'content',
     type: 'type',
-    publishedAt: 'publishedAt',
-    authorId: 'authorId'
+    tags: 'tags',
+    miniDesc: 'miniDesc',
+    publishedAt: 'publishedAt'
   };
 
   export type TopicScalarFieldEnum = (typeof TopicScalarFieldEnum)[keyof typeof TopicScalarFieldEnum]
@@ -8177,7 +7031,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
-    authorProfile?: XOR<AuthorNullableScalarRelationFilter, AuthorWhereInput> | null
+    savedTopics?: TopicListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -8188,7 +7042,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
-    authorProfile?: AuthorOrderByWithRelationInput
+    savedTopics?: TopicOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -8202,7 +7056,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
-    authorProfile?: XOR<AuthorNullableScalarRelationFilter, AuthorWhereInput> | null
+    savedTopics?: TopicListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -8227,77 +7081,31 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
-  export type AuthorWhereInput = {
-    AND?: AuthorWhereInput | AuthorWhereInput[]
-    OR?: AuthorWhereInput[]
-    NOT?: AuthorWhereInput | AuthorWhereInput[]
-    id?: StringFilter<"Author"> | string
-    name?: StringFilter<"Author"> | string
-    numTopics?: IntFilter<"Author"> | number
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    topics?: TopicListRelationFilter
-  }
-
-  export type AuthorOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    numTopics?: SortOrder
-    user?: UserOrderByWithRelationInput
-    topics?: TopicOrderByRelationAggregateInput
-  }
-
-  export type AuthorWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: AuthorWhereInput | AuthorWhereInput[]
-    OR?: AuthorWhereInput[]
-    NOT?: AuthorWhereInput | AuthorWhereInput[]
-    name?: StringFilter<"Author"> | string
-    numTopics?: IntFilter<"Author"> | number
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    topics?: TopicListRelationFilter
-  }, "id">
-
-  export type AuthorOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    numTopics?: SortOrder
-    _count?: AuthorCountOrderByAggregateInput
-    _avg?: AuthorAvgOrderByAggregateInput
-    _max?: AuthorMaxOrderByAggregateInput
-    _min?: AuthorMinOrderByAggregateInput
-    _sum?: AuthorSumOrderByAggregateInput
-  }
-
-  export type AuthorScalarWhereWithAggregatesInput = {
-    AND?: AuthorScalarWhereWithAggregatesInput | AuthorScalarWhereWithAggregatesInput[]
-    OR?: AuthorScalarWhereWithAggregatesInput[]
-    NOT?: AuthorScalarWhereWithAggregatesInput | AuthorScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Author"> | string
-    name?: StringWithAggregatesFilter<"Author"> | string
-    numTopics?: IntWithAggregatesFilter<"Author"> | number
-  }
-
   export type TopicWhereInput = {
     AND?: TopicWhereInput | TopicWhereInput[]
     OR?: TopicWhereInput[]
     NOT?: TopicWhereInput | TopicWhereInput[]
     id?: StringFilter<"Topic"> | string
+    image?: StringNullableFilter<"Topic"> | string | null
     title?: StringFilter<"Topic"> | string
     content?: StringFilter<"Topic"> | string
     type?: EnumTopicTypeFilter<"Topic"> | $Enums.TopicType
+    tags?: StringNullableListFilter<"Topic">
+    miniDesc?: StringFilter<"Topic"> | string
     publishedAt?: DateTimeFilter<"Topic"> | Date | string
-    authorId?: StringFilter<"Topic"> | string
-    author?: XOR<AuthorScalarRelationFilter, AuthorWhereInput>
+    savedBy?: UserListRelationFilter
   }
 
   export type TopicOrderByWithRelationInput = {
     id?: SortOrder
+    image?: SortOrderInput | SortOrder
     title?: SortOrder
     content?: SortOrder
     type?: SortOrder
+    tags?: SortOrder
+    miniDesc?: SortOrder
     publishedAt?: SortOrder
-    authorId?: SortOrder
-    author?: AuthorOrderByWithRelationInput
+    savedBy?: UserOrderByRelationAggregateInput
   }
 
   export type TopicWhereUniqueInput = Prisma.AtLeast<{
@@ -8305,21 +7113,25 @@ export namespace Prisma {
     AND?: TopicWhereInput | TopicWhereInput[]
     OR?: TopicWhereInput[]
     NOT?: TopicWhereInput | TopicWhereInput[]
+    image?: StringNullableFilter<"Topic"> | string | null
     title?: StringFilter<"Topic"> | string
     content?: StringFilter<"Topic"> | string
     type?: EnumTopicTypeFilter<"Topic"> | $Enums.TopicType
+    tags?: StringNullableListFilter<"Topic">
+    miniDesc?: StringFilter<"Topic"> | string
     publishedAt?: DateTimeFilter<"Topic"> | Date | string
-    authorId?: StringFilter<"Topic"> | string
-    author?: XOR<AuthorScalarRelationFilter, AuthorWhereInput>
+    savedBy?: UserListRelationFilter
   }, "id">
 
   export type TopicOrderByWithAggregationInput = {
     id?: SortOrder
+    image?: SortOrderInput | SortOrder
     title?: SortOrder
     content?: SortOrder
     type?: SortOrder
+    tags?: SortOrder
+    miniDesc?: SortOrder
     publishedAt?: SortOrder
-    authorId?: SortOrder
     _count?: TopicCountOrderByAggregateInput
     _max?: TopicMaxOrderByAggregateInput
     _min?: TopicMinOrderByAggregateInput
@@ -8330,11 +7142,13 @@ export namespace Prisma {
     OR?: TopicScalarWhereWithAggregatesInput[]
     NOT?: TopicScalarWhereWithAggregatesInput | TopicScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Topic"> | string
+    image?: StringNullableWithAggregatesFilter<"Topic"> | string | null
     title?: StringWithAggregatesFilter<"Topic"> | string
     content?: StringWithAggregatesFilter<"Topic"> | string
     type?: EnumTopicTypeWithAggregatesFilter<"Topic"> | $Enums.TopicType
+    tags?: StringNullableListFilter<"Topic">
+    miniDesc?: StringWithAggregatesFilter<"Topic"> | string
     publishedAt?: DateTimeWithAggregatesFilter<"Topic"> | Date | string
-    authorId?: StringWithAggregatesFilter<"Topic"> | string
   }
 
   export type VerificationTokenWhereInput = {
@@ -8542,7 +7356,7 @@ export namespace Prisma {
     image?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    authorProfile?: AuthorCreateNestedOneWithoutUserInput
+    savedTopics?: TopicCreateNestedManyWithoutSavedByInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -8553,7 +7367,7 @@ export namespace Prisma {
     image?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    authorProfile?: AuthorUncheckedCreateNestedOneWithoutUserInput
+    savedTopics?: TopicUncheckedCreateNestedManyWithoutSavedByInput
   }
 
   export type UserUpdateInput = {
@@ -8564,7 +7378,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    authorProfile?: AuthorUpdateOneWithoutUserNestedInput
+    savedTopics?: TopicUpdateManyWithoutSavedByNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -8575,7 +7389,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    authorProfile?: AuthorUncheckedUpdateOneWithoutUserNestedInput
+    savedTopics?: TopicUncheckedUpdateManyWithoutSavedByNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -8602,111 +7416,85 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type AuthorCreateInput = {
-    name: string
-    numTopics?: number
-    user: UserCreateNestedOneWithoutAuthorProfileInput
-    topics?: TopicCreateNestedManyWithoutAuthorInput
-  }
-
-  export type AuthorUncheckedCreateInput = {
-    id: string
-    name: string
-    numTopics?: number
-    topics?: TopicUncheckedCreateNestedManyWithoutAuthorInput
-  }
-
-  export type AuthorUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    numTopics?: IntFieldUpdateOperationsInput | number
-    user?: UserUpdateOneRequiredWithoutAuthorProfileNestedInput
-    topics?: TopicUpdateManyWithoutAuthorNestedInput
-  }
-
-  export type AuthorUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    numTopics?: IntFieldUpdateOperationsInput | number
-    topics?: TopicUncheckedUpdateManyWithoutAuthorNestedInput
-  }
-
-  export type AuthorCreateManyInput = {
-    id: string
-    name: string
-    numTopics?: number
-  }
-
-  export type AuthorUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    numTopics?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type AuthorUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    numTopics?: IntFieldUpdateOperationsInput | number
-  }
-
   export type TopicCreateInput = {
     id?: string
+    image?: string | null
     title: string
     content: string
     type: $Enums.TopicType
+    tags?: TopicCreatetagsInput | string[]
+    miniDesc: string
     publishedAt?: Date | string
-    author: AuthorCreateNestedOneWithoutTopicsInput
+    savedBy?: UserCreateNestedManyWithoutSavedTopicsInput
   }
 
   export type TopicUncheckedCreateInput = {
     id?: string
+    image?: string | null
     title: string
     content: string
     type: $Enums.TopicType
+    tags?: TopicCreatetagsInput | string[]
+    miniDesc: string
     publishedAt?: Date | string
-    authorId: string
+    savedBy?: UserUncheckedCreateNestedManyWithoutSavedTopicsInput
   }
 
   export type TopicUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
+    tags?: TopicUpdatetagsInput | string[]
+    miniDesc?: StringFieldUpdateOperationsInput | string
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    author?: AuthorUpdateOneRequiredWithoutTopicsNestedInput
+    savedBy?: UserUpdateManyWithoutSavedTopicsNestedInput
   }
 
   export type TopicUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
+    tags?: TopicUpdatetagsInput | string[]
+    miniDesc?: StringFieldUpdateOperationsInput | string
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    authorId?: StringFieldUpdateOperationsInput | string
+    savedBy?: UserUncheckedUpdateManyWithoutSavedTopicsNestedInput
   }
 
   export type TopicCreateManyInput = {
     id?: string
+    image?: string | null
     title: string
     content: string
     type: $Enums.TopicType
+    tags?: TopicCreatetagsInput | string[]
+    miniDesc: string
     publishedAt?: Date | string
-    authorId: string
   }
 
   export type TopicUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
+    tags?: TopicUpdatetagsInput | string[]
+    miniDesc?: StringFieldUpdateOperationsInput | string
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TopicUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
+    tags?: TopicUpdatetagsInput | string[]
+    miniDesc?: StringFieldUpdateOperationsInput | string
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    authorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type VerificationTokenCreateInput = {
@@ -8983,9 +7771,10 @@ export namespace Prisma {
     none?: SessionWhereInput
   }
 
-  export type AuthorNullableScalarRelationFilter = {
-    is?: AuthorWhereInput | null
-    isNot?: AuthorWhereInput | null
+  export type TopicListRelationFilter = {
+    every?: TopicWhereInput
+    some?: TopicWhereInput
+    none?: TopicWhereInput
   }
 
   export type AccountOrderByRelationAggregateInput = {
@@ -8993,6 +7782,10 @@ export namespace Prisma {
   }
 
   export type SessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TopicOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -9034,74 +7827,19 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type TopicListRelationFilter = {
-    every?: TopicWhereInput
-    some?: TopicWhereInput
-    none?: TopicWhereInput
-  }
-
-  export type TopicOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type AuthorCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    numTopics?: SortOrder
-  }
-
-  export type AuthorAvgOrderByAggregateInput = {
-    numTopics?: SortOrder
-  }
-
-  export type AuthorMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    numTopics?: SortOrder
-  }
-
-  export type AuthorMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    numTopics?: SortOrder
-  }
-
-  export type AuthorSumOrderByAggregateInput = {
-    numTopics?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
   export type EnumTopicTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.TopicType | EnumTopicTypeFieldRefInput<$PrismaModel>
     in?: $Enums.TopicType[] | ListEnumTopicTypeFieldRefInput<$PrismaModel>
     notIn?: $Enums.TopicType[] | ListEnumTopicTypeFieldRefInput<$PrismaModel>
     not?: NestedEnumTopicTypeFilter<$PrismaModel> | $Enums.TopicType
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -9115,36 +7853,45 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type AuthorScalarRelationFilter = {
-    is?: AuthorWhereInput
-    isNot?: AuthorWhereInput
+  export type UserListRelationFilter = {
+    every?: UserWhereInput
+    some?: UserWhereInput
+    none?: UserWhereInput
+  }
+
+  export type UserOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type TopicCountOrderByAggregateInput = {
     id?: SortOrder
+    image?: SortOrder
     title?: SortOrder
     content?: SortOrder
     type?: SortOrder
+    tags?: SortOrder
+    miniDesc?: SortOrder
     publishedAt?: SortOrder
-    authorId?: SortOrder
   }
 
   export type TopicMaxOrderByAggregateInput = {
     id?: SortOrder
+    image?: SortOrder
     title?: SortOrder
     content?: SortOrder
     type?: SortOrder
+    miniDesc?: SortOrder
     publishedAt?: SortOrder
-    authorId?: SortOrder
   }
 
   export type TopicMinOrderByAggregateInput = {
     id?: SortOrder
+    image?: SortOrder
     title?: SortOrder
     content?: SortOrder
     type?: SortOrder
+    miniDesc?: SortOrder
     publishedAt?: SortOrder
-    authorId?: SortOrder
   }
 
   export type EnumTopicTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -9259,10 +8006,10 @@ export namespace Prisma {
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
-  export type AuthorCreateNestedOneWithoutUserInput = {
-    create?: XOR<AuthorCreateWithoutUserInput, AuthorUncheckedCreateWithoutUserInput>
-    connectOrCreate?: AuthorCreateOrConnectWithoutUserInput
-    connect?: AuthorWhereUniqueInput
+  export type TopicCreateNestedManyWithoutSavedByInput = {
+    create?: XOR<TopicCreateWithoutSavedByInput, TopicUncheckedCreateWithoutSavedByInput> | TopicCreateWithoutSavedByInput[] | TopicUncheckedCreateWithoutSavedByInput[]
+    connectOrCreate?: TopicCreateOrConnectWithoutSavedByInput | TopicCreateOrConnectWithoutSavedByInput[]
+    connect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
   }
 
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
@@ -9279,10 +8026,10 @@ export namespace Prisma {
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
-  export type AuthorUncheckedCreateNestedOneWithoutUserInput = {
-    create?: XOR<AuthorCreateWithoutUserInput, AuthorUncheckedCreateWithoutUserInput>
-    connectOrCreate?: AuthorCreateOrConnectWithoutUserInput
-    connect?: AuthorWhereUniqueInput
+  export type TopicUncheckedCreateNestedManyWithoutSavedByInput = {
+    create?: XOR<TopicCreateWithoutSavedByInput, TopicUncheckedCreateWithoutSavedByInput> | TopicCreateWithoutSavedByInput[] | TopicUncheckedCreateWithoutSavedByInput[]
+    connectOrCreate?: TopicCreateOrConnectWithoutSavedByInput | TopicCreateOrConnectWithoutSavedByInput[]
+    connect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -9317,14 +8064,17 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
-  export type AuthorUpdateOneWithoutUserNestedInput = {
-    create?: XOR<AuthorCreateWithoutUserInput, AuthorUncheckedCreateWithoutUserInput>
-    connectOrCreate?: AuthorCreateOrConnectWithoutUserInput
-    upsert?: AuthorUpsertWithoutUserInput
-    disconnect?: AuthorWhereInput | boolean
-    delete?: AuthorWhereInput | boolean
-    connect?: AuthorWhereUniqueInput
-    update?: XOR<XOR<AuthorUpdateToOneWithWhereWithoutUserInput, AuthorUpdateWithoutUserInput>, AuthorUncheckedUpdateWithoutUserInput>
+  export type TopicUpdateManyWithoutSavedByNestedInput = {
+    create?: XOR<TopicCreateWithoutSavedByInput, TopicUncheckedCreateWithoutSavedByInput> | TopicCreateWithoutSavedByInput[] | TopicUncheckedCreateWithoutSavedByInput[]
+    connectOrCreate?: TopicCreateOrConnectWithoutSavedByInput | TopicCreateOrConnectWithoutSavedByInput[]
+    upsert?: TopicUpsertWithWhereUniqueWithoutSavedByInput | TopicUpsertWithWhereUniqueWithoutSavedByInput[]
+    set?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+    disconnect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+    delete?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+    connect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+    update?: TopicUpdateWithWhereUniqueWithoutSavedByInput | TopicUpdateWithWhereUniqueWithoutSavedByInput[]
+    updateMany?: TopicUpdateManyWithWhereWithoutSavedByInput | TopicUpdateManyWithWhereWithoutSavedByInput[]
+    deleteMany?: TopicScalarWhereInput | TopicScalarWhereInput[]
   }
 
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
@@ -9355,100 +8105,72 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
-  export type AuthorUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<AuthorCreateWithoutUserInput, AuthorUncheckedCreateWithoutUserInput>
-    connectOrCreate?: AuthorCreateOrConnectWithoutUserInput
-    upsert?: AuthorUpsertWithoutUserInput
-    disconnect?: AuthorWhereInput | boolean
-    delete?: AuthorWhereInput | boolean
-    connect?: AuthorWhereUniqueInput
-    update?: XOR<XOR<AuthorUpdateToOneWithWhereWithoutUserInput, AuthorUpdateWithoutUserInput>, AuthorUncheckedUpdateWithoutUserInput>
-  }
-
-  export type UserCreateNestedOneWithoutAuthorProfileInput = {
-    create?: XOR<UserCreateWithoutAuthorProfileInput, UserUncheckedCreateWithoutAuthorProfileInput>
-    connectOrCreate?: UserCreateOrConnectWithoutAuthorProfileInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type TopicCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<TopicCreateWithoutAuthorInput, TopicUncheckedCreateWithoutAuthorInput> | TopicCreateWithoutAuthorInput[] | TopicUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: TopicCreateOrConnectWithoutAuthorInput | TopicCreateOrConnectWithoutAuthorInput[]
-    createMany?: TopicCreateManyAuthorInputEnvelope
-    connect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
-  }
-
-  export type TopicUncheckedCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<TopicCreateWithoutAuthorInput, TopicUncheckedCreateWithoutAuthorInput> | TopicCreateWithoutAuthorInput[] | TopicUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: TopicCreateOrConnectWithoutAuthorInput | TopicCreateOrConnectWithoutAuthorInput[]
-    createMany?: TopicCreateManyAuthorInputEnvelope
-    connect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type UserUpdateOneRequiredWithoutAuthorProfileNestedInput = {
-    create?: XOR<UserCreateWithoutAuthorProfileInput, UserUncheckedCreateWithoutAuthorProfileInput>
-    connectOrCreate?: UserCreateOrConnectWithoutAuthorProfileInput
-    upsert?: UserUpsertWithoutAuthorProfileInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuthorProfileInput, UserUpdateWithoutAuthorProfileInput>, UserUncheckedUpdateWithoutAuthorProfileInput>
-  }
-
-  export type TopicUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<TopicCreateWithoutAuthorInput, TopicUncheckedCreateWithoutAuthorInput> | TopicCreateWithoutAuthorInput[] | TopicUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: TopicCreateOrConnectWithoutAuthorInput | TopicCreateOrConnectWithoutAuthorInput[]
-    upsert?: TopicUpsertWithWhereUniqueWithoutAuthorInput | TopicUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: TopicCreateManyAuthorInputEnvelope
+  export type TopicUncheckedUpdateManyWithoutSavedByNestedInput = {
+    create?: XOR<TopicCreateWithoutSavedByInput, TopicUncheckedCreateWithoutSavedByInput> | TopicCreateWithoutSavedByInput[] | TopicUncheckedCreateWithoutSavedByInput[]
+    connectOrCreate?: TopicCreateOrConnectWithoutSavedByInput | TopicCreateOrConnectWithoutSavedByInput[]
+    upsert?: TopicUpsertWithWhereUniqueWithoutSavedByInput | TopicUpsertWithWhereUniqueWithoutSavedByInput[]
     set?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
     disconnect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
     delete?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
     connect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
-    update?: TopicUpdateWithWhereUniqueWithoutAuthorInput | TopicUpdateWithWhereUniqueWithoutAuthorInput[]
-    updateMany?: TopicUpdateManyWithWhereWithoutAuthorInput | TopicUpdateManyWithWhereWithoutAuthorInput[]
+    update?: TopicUpdateWithWhereUniqueWithoutSavedByInput | TopicUpdateWithWhereUniqueWithoutSavedByInput[]
+    updateMany?: TopicUpdateManyWithWhereWithoutSavedByInput | TopicUpdateManyWithWhereWithoutSavedByInput[]
     deleteMany?: TopicScalarWhereInput | TopicScalarWhereInput[]
   }
 
-  export type TopicUncheckedUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<TopicCreateWithoutAuthorInput, TopicUncheckedCreateWithoutAuthorInput> | TopicCreateWithoutAuthorInput[] | TopicUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: TopicCreateOrConnectWithoutAuthorInput | TopicCreateOrConnectWithoutAuthorInput[]
-    upsert?: TopicUpsertWithWhereUniqueWithoutAuthorInput | TopicUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: TopicCreateManyAuthorInputEnvelope
-    set?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
-    disconnect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
-    delete?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
-    connect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
-    update?: TopicUpdateWithWhereUniqueWithoutAuthorInput | TopicUpdateWithWhereUniqueWithoutAuthorInput[]
-    updateMany?: TopicUpdateManyWithWhereWithoutAuthorInput | TopicUpdateManyWithWhereWithoutAuthorInput[]
-    deleteMany?: TopicScalarWhereInput | TopicScalarWhereInput[]
+  export type TopicCreatetagsInput = {
+    set: string[]
   }
 
-  export type AuthorCreateNestedOneWithoutTopicsInput = {
-    create?: XOR<AuthorCreateWithoutTopicsInput, AuthorUncheckedCreateWithoutTopicsInput>
-    connectOrCreate?: AuthorCreateOrConnectWithoutTopicsInput
-    connect?: AuthorWhereUniqueInput
+  export type UserCreateNestedManyWithoutSavedTopicsInput = {
+    create?: XOR<UserCreateWithoutSavedTopicsInput, UserUncheckedCreateWithoutSavedTopicsInput> | UserCreateWithoutSavedTopicsInput[] | UserUncheckedCreateWithoutSavedTopicsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutSavedTopicsInput | UserCreateOrConnectWithoutSavedTopicsInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutSavedTopicsInput = {
+    create?: XOR<UserCreateWithoutSavedTopicsInput, UserUncheckedCreateWithoutSavedTopicsInput> | UserCreateWithoutSavedTopicsInput[] | UserUncheckedCreateWithoutSavedTopicsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutSavedTopicsInput | UserCreateOrConnectWithoutSavedTopicsInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
   export type EnumTopicTypeFieldUpdateOperationsInput = {
     set?: $Enums.TopicType
   }
 
+  export type TopicUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
 
-  export type AuthorUpdateOneRequiredWithoutTopicsNestedInput = {
-    create?: XOR<AuthorCreateWithoutTopicsInput, AuthorUncheckedCreateWithoutTopicsInput>
-    connectOrCreate?: AuthorCreateOrConnectWithoutTopicsInput
-    upsert?: AuthorUpsertWithoutTopicsInput
-    connect?: AuthorWhereUniqueInput
-    update?: XOR<XOR<AuthorUpdateToOneWithWhereWithoutTopicsInput, AuthorUpdateWithoutTopicsInput>, AuthorUncheckedUpdateWithoutTopicsInput>
+  export type UserUpdateManyWithoutSavedTopicsNestedInput = {
+    create?: XOR<UserCreateWithoutSavedTopicsInput, UserUncheckedCreateWithoutSavedTopicsInput> | UserCreateWithoutSavedTopicsInput[] | UserUncheckedCreateWithoutSavedTopicsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutSavedTopicsInput | UserCreateOrConnectWithoutSavedTopicsInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutSavedTopicsInput | UserUpsertWithWhereUniqueWithoutSavedTopicsInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutSavedTopicsInput | UserUpdateWithWhereUniqueWithoutSavedTopicsInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutSavedTopicsInput | UserUpdateManyWithWhereWithoutSavedTopicsInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type UserUncheckedUpdateManyWithoutSavedTopicsNestedInput = {
+    create?: XOR<UserCreateWithoutSavedTopicsInput, UserUncheckedCreateWithoutSavedTopicsInput> | UserCreateWithoutSavedTopicsInput[] | UserUncheckedCreateWithoutSavedTopicsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutSavedTopicsInput | UserCreateOrConnectWithoutSavedTopicsInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutSavedTopicsInput | UserUpsertWithWhereUniqueWithoutSavedTopicsInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutSavedTopicsInput | UserUpdateWithWhereUniqueWithoutSavedTopicsInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutSavedTopicsInput | UserUpdateManyWithWhereWithoutSavedTopicsInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -9601,33 +8323,6 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type NestedEnumTopicTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.TopicType | EnumTopicTypeFieldRefInput<$PrismaModel>
     in?: $Enums.TopicType[] | ListEnumTopicTypeFieldRefInput<$PrismaModel>
@@ -9677,7 +8372,7 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
-    authorProfile?: AuthorCreateNestedOneWithoutUserInput
+    savedTopics?: TopicCreateNestedManyWithoutSavedByInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -9687,7 +8382,7 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    authorProfile?: AuthorUncheckedCreateNestedOneWithoutUserInput
+    savedTopics?: TopicUncheckedCreateNestedManyWithoutSavedByInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -9713,7 +8408,7 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    authorProfile?: AuthorUpdateOneWithoutUserNestedInput
+    savedTopics?: TopicUpdateManyWithoutSavedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -9723,7 +8418,7 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    authorProfile?: AuthorUncheckedUpdateOneWithoutUserNestedInput
+    savedTopics?: TopicUncheckedUpdateManyWithoutSavedByNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -9786,21 +8481,31 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type AuthorCreateWithoutUserInput = {
-    name: string
-    numTopics?: number
-    topics?: TopicCreateNestedManyWithoutAuthorInput
+  export type TopicCreateWithoutSavedByInput = {
+    id?: string
+    image?: string | null
+    title: string
+    content: string
+    type: $Enums.TopicType
+    tags?: TopicCreatetagsInput | string[]
+    miniDesc: string
+    publishedAt?: Date | string
   }
 
-  export type AuthorUncheckedCreateWithoutUserInput = {
-    name: string
-    numTopics?: number
-    topics?: TopicUncheckedCreateNestedManyWithoutAuthorInput
+  export type TopicUncheckedCreateWithoutSavedByInput = {
+    id?: string
+    image?: string | null
+    title: string
+    content: string
+    type: $Enums.TopicType
+    tags?: TopicCreatetagsInput | string[]
+    miniDesc: string
+    publishedAt?: Date | string
   }
 
-  export type AuthorCreateOrConnectWithoutUserInput = {
-    where: AuthorWhereUniqueInput
-    create: XOR<AuthorCreateWithoutUserInput, AuthorUncheckedCreateWithoutUserInput>
+  export type TopicCreateOrConnectWithoutSavedByInput = {
+    where: TopicWhereUniqueInput
+    create: XOR<TopicCreateWithoutSavedByInput, TopicUncheckedCreateWithoutSavedByInput>
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -9863,30 +8568,37 @@ export namespace Prisma {
     expires?: DateTimeFilter<"Session"> | Date | string
   }
 
-  export type AuthorUpsertWithoutUserInput = {
-    update: XOR<AuthorUpdateWithoutUserInput, AuthorUncheckedUpdateWithoutUserInput>
-    create: XOR<AuthorCreateWithoutUserInput, AuthorUncheckedCreateWithoutUserInput>
-    where?: AuthorWhereInput
+  export type TopicUpsertWithWhereUniqueWithoutSavedByInput = {
+    where: TopicWhereUniqueInput
+    update: XOR<TopicUpdateWithoutSavedByInput, TopicUncheckedUpdateWithoutSavedByInput>
+    create: XOR<TopicCreateWithoutSavedByInput, TopicUncheckedCreateWithoutSavedByInput>
   }
 
-  export type AuthorUpdateToOneWithWhereWithoutUserInput = {
-    where?: AuthorWhereInput
-    data: XOR<AuthorUpdateWithoutUserInput, AuthorUncheckedUpdateWithoutUserInput>
+  export type TopicUpdateWithWhereUniqueWithoutSavedByInput = {
+    where: TopicWhereUniqueInput
+    data: XOR<TopicUpdateWithoutSavedByInput, TopicUncheckedUpdateWithoutSavedByInput>
   }
 
-  export type AuthorUpdateWithoutUserInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    numTopics?: IntFieldUpdateOperationsInput | number
-    topics?: TopicUpdateManyWithoutAuthorNestedInput
+  export type TopicUpdateManyWithWhereWithoutSavedByInput = {
+    where: TopicScalarWhereInput
+    data: XOR<TopicUpdateManyMutationInput, TopicUncheckedUpdateManyWithoutSavedByInput>
   }
 
-  export type AuthorUncheckedUpdateWithoutUserInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    numTopics?: IntFieldUpdateOperationsInput | number
-    topics?: TopicUncheckedUpdateManyWithoutAuthorNestedInput
+  export type TopicScalarWhereInput = {
+    AND?: TopicScalarWhereInput | TopicScalarWhereInput[]
+    OR?: TopicScalarWhereInput[]
+    NOT?: TopicScalarWhereInput | TopicScalarWhereInput[]
+    id?: StringFilter<"Topic"> | string
+    image?: StringNullableFilter<"Topic"> | string | null
+    title?: StringFilter<"Topic"> | string
+    content?: StringFilter<"Topic"> | string
+    type?: EnumTopicTypeFilter<"Topic"> | $Enums.TopicType
+    tags?: StringNullableListFilter<"Topic">
+    miniDesc?: StringFilter<"Topic"> | string
+    publishedAt?: DateTimeFilter<"Topic"> | Date | string
   }
 
-  export type UserCreateWithoutAuthorProfileInput = {
+  export type UserCreateWithoutSavedTopicsInput = {
     id?: string
     name?: string | null
     email?: string | null
@@ -9896,7 +8608,7 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutAuthorProfileInput = {
+  export type UserUncheckedCreateWithoutSavedTopicsInput = {
     id?: string
     name?: string | null
     email?: string | null
@@ -9906,134 +8618,36 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutAuthorProfileInput = {
+  export type UserCreateOrConnectWithoutSavedTopicsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutAuthorProfileInput, UserUncheckedCreateWithoutAuthorProfileInput>
+    create: XOR<UserCreateWithoutSavedTopicsInput, UserUncheckedCreateWithoutSavedTopicsInput>
   }
 
-  export type TopicCreateWithoutAuthorInput = {
-    id?: string
-    title: string
-    content: string
-    type: $Enums.TopicType
-    publishedAt?: Date | string
+  export type UserUpsertWithWhereUniqueWithoutSavedTopicsInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutSavedTopicsInput, UserUncheckedUpdateWithoutSavedTopicsInput>
+    create: XOR<UserCreateWithoutSavedTopicsInput, UserUncheckedCreateWithoutSavedTopicsInput>
   }
 
-  export type TopicUncheckedCreateWithoutAuthorInput = {
-    id?: string
-    title: string
-    content: string
-    type: $Enums.TopicType
-    publishedAt?: Date | string
+  export type UserUpdateWithWhereUniqueWithoutSavedTopicsInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutSavedTopicsInput, UserUncheckedUpdateWithoutSavedTopicsInput>
   }
 
-  export type TopicCreateOrConnectWithoutAuthorInput = {
-    where: TopicWhereUniqueInput
-    create: XOR<TopicCreateWithoutAuthorInput, TopicUncheckedCreateWithoutAuthorInput>
+  export type UserUpdateManyWithWhereWithoutSavedTopicsInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutSavedTopicsInput>
   }
 
-  export type TopicCreateManyAuthorInputEnvelope = {
-    data: TopicCreateManyAuthorInput | TopicCreateManyAuthorInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UserUpsertWithoutAuthorProfileInput = {
-    update: XOR<UserUpdateWithoutAuthorProfileInput, UserUncheckedUpdateWithoutAuthorProfileInput>
-    create: XOR<UserCreateWithoutAuthorProfileInput, UserUncheckedCreateWithoutAuthorProfileInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutAuthorProfileInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutAuthorProfileInput, UserUncheckedUpdateWithoutAuthorProfileInput>
-  }
-
-  export type UserUpdateWithoutAuthorProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutAuthorProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type TopicUpsertWithWhereUniqueWithoutAuthorInput = {
-    where: TopicWhereUniqueInput
-    update: XOR<TopicUpdateWithoutAuthorInput, TopicUncheckedUpdateWithoutAuthorInput>
-    create: XOR<TopicCreateWithoutAuthorInput, TopicUncheckedCreateWithoutAuthorInput>
-  }
-
-  export type TopicUpdateWithWhereUniqueWithoutAuthorInput = {
-    where: TopicWhereUniqueInput
-    data: XOR<TopicUpdateWithoutAuthorInput, TopicUncheckedUpdateWithoutAuthorInput>
-  }
-
-  export type TopicUpdateManyWithWhereWithoutAuthorInput = {
-    where: TopicScalarWhereInput
-    data: XOR<TopicUpdateManyMutationInput, TopicUncheckedUpdateManyWithoutAuthorInput>
-  }
-
-  export type TopicScalarWhereInput = {
-    AND?: TopicScalarWhereInput | TopicScalarWhereInput[]
-    OR?: TopicScalarWhereInput[]
-    NOT?: TopicScalarWhereInput | TopicScalarWhereInput[]
-    id?: StringFilter<"Topic"> | string
-    title?: StringFilter<"Topic"> | string
-    content?: StringFilter<"Topic"> | string
-    type?: EnumTopicTypeFilter<"Topic"> | $Enums.TopicType
-    publishedAt?: DateTimeFilter<"Topic"> | Date | string
-    authorId?: StringFilter<"Topic"> | string
-  }
-
-  export type AuthorCreateWithoutTopicsInput = {
-    name: string
-    numTopics?: number
-    user: UserCreateNestedOneWithoutAuthorProfileInput
-  }
-
-  export type AuthorUncheckedCreateWithoutTopicsInput = {
-    id: string
-    name: string
-    numTopics?: number
-  }
-
-  export type AuthorCreateOrConnectWithoutTopicsInput = {
-    where: AuthorWhereUniqueInput
-    create: XOR<AuthorCreateWithoutTopicsInput, AuthorUncheckedCreateWithoutTopicsInput>
-  }
-
-  export type AuthorUpsertWithoutTopicsInput = {
-    update: XOR<AuthorUpdateWithoutTopicsInput, AuthorUncheckedUpdateWithoutTopicsInput>
-    create: XOR<AuthorCreateWithoutTopicsInput, AuthorUncheckedCreateWithoutTopicsInput>
-    where?: AuthorWhereInput
-  }
-
-  export type AuthorUpdateToOneWithWhereWithoutTopicsInput = {
-    where?: AuthorWhereInput
-    data: XOR<AuthorUpdateWithoutTopicsInput, AuthorUncheckedUpdateWithoutTopicsInput>
-  }
-
-  export type AuthorUpdateWithoutTopicsInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    numTopics?: IntFieldUpdateOperationsInput | number
-    user?: UserUpdateOneRequiredWithoutAuthorProfileNestedInput
-  }
-
-  export type AuthorUncheckedUpdateWithoutTopicsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    numTopics?: IntFieldUpdateOperationsInput | number
+  export type UserScalarWhereInput = {
+    AND?: UserScalarWhereInput | UserScalarWhereInput[]
+    OR?: UserScalarWhereInput[]
+    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
+    id?: StringFilter<"User"> | string
+    name?: StringNullableFilter<"User"> | string | null
+    email?: StringNullableFilter<"User"> | string | null
+    emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
+    image?: StringNullableFilter<"User"> | string | null
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -10043,7 +8657,7 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
-    authorProfile?: AuthorCreateNestedOneWithoutUserInput
+    savedTopics?: TopicCreateNestedManyWithoutSavedByInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -10053,7 +8667,7 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    authorProfile?: AuthorUncheckedCreateNestedOneWithoutUserInput
+    savedTopics?: TopicUncheckedCreateNestedManyWithoutSavedByInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -10079,7 +8693,7 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    authorProfile?: AuthorUpdateOneWithoutUserNestedInput
+    savedTopics?: TopicUpdateManyWithoutSavedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -10089,7 +8703,7 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    authorProfile?: AuthorUncheckedUpdateOneWithoutUserNestedInput
+    savedTopics?: TopicUncheckedUpdateManyWithoutSavedByNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -10172,36 +8786,65 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TopicCreateManyAuthorInput = {
-    id?: string
-    title: string
-    content: string
-    type: $Enums.TopicType
-    publishedAt?: Date | string
-  }
-
-  export type TopicUpdateWithoutAuthorInput = {
+  export type TopicUpdateWithoutSavedByInput = {
     id?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
+    tags?: TopicUpdatetagsInput | string[]
+    miniDesc?: StringFieldUpdateOperationsInput | string
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TopicUncheckedUpdateWithoutAuthorInput = {
+  export type TopicUncheckedUpdateWithoutSavedByInput = {
     id?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
+    tags?: TopicUpdatetagsInput | string[]
+    miniDesc?: StringFieldUpdateOperationsInput | string
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TopicUncheckedUpdateManyWithoutAuthorInput = {
+  export type TopicUncheckedUpdateManyWithoutSavedByInput = {
     id?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
+    tags?: TopicUpdatetagsInput | string[]
+    miniDesc?: StringFieldUpdateOperationsInput | string
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpdateWithoutSavedTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSavedTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutSavedTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

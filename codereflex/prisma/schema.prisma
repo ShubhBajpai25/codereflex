@@ -44,27 +44,19 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-
-    authorProfile Author? @relation("UsertoAuthor")
-}
-
-model Author {
-    id String @id
-    user User @relation("UsertoAuthor", fields: [id], references: [id], onDelete: Cascade)
-    name String
-    numTopics Int @default(0)
-    topics Topic[]
+    savedTopics Topic[] @relation("UserSavedTopics")
 }
 
 model Topic {
     id String @id @default(cuid())
+    image String?
     title String
     content String @db.Text
     type TopicType
+    tags String[]
+    miniDesc String
     publishedAt DateTime @default(now())
-
-    authorId String
-    author Author @relation(fields: [authorId], references: [id])
+    savedBy User[] @relation("UserSavedTopics")
 }
 
 model VerificationToken {

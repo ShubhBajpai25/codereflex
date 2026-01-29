@@ -144,19 +144,15 @@ exports.Prisma.UserScalarFieldEnum = {
   image: 'image'
 };
 
-exports.Prisma.AuthorScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  numTopics: 'numTopics'
-};
-
 exports.Prisma.TopicScalarFieldEnum = {
   id: 'id',
+  image: 'image',
   title: 'title',
   content: 'content',
   type: 'type',
-  publishedAt: 'publishedAt',
-  authorId: 'authorId'
+  tags: 'tags',
+  miniDesc: 'miniDesc',
+  publishedAt: 'publishedAt'
 };
 
 exports.Prisma.VerificationTokenScalarFieldEnum = {
@@ -194,7 +190,6 @@ exports.TopicType = exports.$Enums.TopicType = {
 exports.Prisma.ModelName = {
   Account: 'Account',
   User: 'User',
-  Author: 'Author',
   Topic: 'Topic',
   VerificationToken: 'VerificationToken',
   Session: 'Session'
