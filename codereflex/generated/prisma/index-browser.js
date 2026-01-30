@@ -152,6 +152,7 @@ exports.Prisma.TopicScalarFieldEnum = {
   type: 'type',
   tags: 'tags',
   miniDesc: 'miniDesc',
+  citations: 'citations',
   publishedAt: 'publishedAt'
 };
 

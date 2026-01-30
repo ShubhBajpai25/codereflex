@@ -55,6 +55,7 @@ model Topic {
   type        TopicType
   tags        String[]
   miniDesc    String
+  citations   String[]
   publishedAt DateTime  @default(now())
   savedBy     User[]    @relation("UserSavedTopics")
 }

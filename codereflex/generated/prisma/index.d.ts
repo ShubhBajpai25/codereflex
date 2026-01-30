@@ -3668,6 +3668,7 @@ export namespace Prisma {
     type: number
     tags: number
     miniDesc: number
+    citations: number
     publishedAt: number
     _all: number
   }
@@ -3701,6 +3702,7 @@ export namespace Prisma {
     type?: true
     tags?: true
     miniDesc?: true
+    citations?: true
     publishedAt?: true
     _all?: true
   }
@@ -3785,6 +3787,7 @@ export namespace Prisma {
     type: $Enums.TopicType
     tags: string[]
     miniDesc: string
+    citations: string[]
     publishedAt: Date
     _count: TopicCountAggregateOutputType | null
     _min: TopicMinAggregateOutputType | null
@@ -3813,6 +3816,7 @@ export namespace Prisma {
     type?: boolean
     tags?: boolean
     miniDesc?: boolean
+    citations?: boolean
     publishedAt?: boolean
     savedBy?: boolean | Topic$savedByArgs<ExtArgs>
     _count?: boolean | TopicCountOutputTypeDefaultArgs<ExtArgs>
@@ -3826,6 +3830,7 @@ export namespace Prisma {
     type?: boolean
     tags?: boolean
     miniDesc?: boolean
+    citations?: boolean
     publishedAt?: boolean
   }, ExtArgs["result"]["topic"]>
 
@@ -3837,6 +3842,7 @@ export namespace Prisma {
     type?: boolean
     tags?: boolean
     miniDesc?: boolean
+    citations?: boolean
     publishedAt?: boolean
   }, ExtArgs["result"]["topic"]>
 
@@ -3848,10 +3854,11 @@ export namespace Prisma {
     type?: boolean
     tags?: boolean
     miniDesc?: boolean
+    citations?: boolean
     publishedAt?: boolean
   }
 
-  export type TopicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "title" | "content" | "type" | "tags" | "miniDesc" | "publishedAt", ExtArgs["result"]["topic"]>
+  export type TopicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "title" | "content" | "type" | "tags" | "miniDesc" | "citations" | "publishedAt", ExtArgs["result"]["topic"]>
   export type TopicInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     savedBy?: boolean | Topic$savedByArgs<ExtArgs>
     _count?: boolean | TopicCountOutputTypeDefaultArgs<ExtArgs>
@@ -3872,6 +3879,7 @@ export namespace Prisma {
       type: $Enums.TopicType
       tags: string[]
       miniDesc: string
+      citations: string[]
       publishedAt: Date
     }, ExtArgs["result"]["topic"]>
     composites: {}
@@ -4304,6 +4312,7 @@ export namespace Prisma {
     readonly type: FieldRef<"Topic", 'TopicType'>
     readonly tags: FieldRef<"Topic", 'String[]'>
     readonly miniDesc: FieldRef<"Topic", 'String'>
+    readonly citations: FieldRef<"Topic", 'String[]'>
     readonly publishedAt: FieldRef<"Topic", 'DateTime'>
   }
     
@@ -6800,6 +6809,7 @@ export namespace Prisma {
     type: 'type',
     tags: 'tags',
     miniDesc: 'miniDesc',
+    citations: 'citations',
     publishedAt: 'publishedAt'
   };
 
@@ -7092,6 +7102,7 @@ export namespace Prisma {
     type?: EnumTopicTypeFilter<"Topic"> | $Enums.TopicType
     tags?: StringNullableListFilter<"Topic">
     miniDesc?: StringFilter<"Topic"> | string
+    citations?: StringNullableListFilter<"Topic">
     publishedAt?: DateTimeFilter<"Topic"> | Date | string
     savedBy?: UserListRelationFilter
   }
@@ -7104,6 +7115,7 @@ export namespace Prisma {
     type?: SortOrder
     tags?: SortOrder
     miniDesc?: SortOrder
+    citations?: SortOrder
     publishedAt?: SortOrder
     savedBy?: UserOrderByRelationAggregateInput
   }
@@ -7119,6 +7131,7 @@ export namespace Prisma {
     type?: EnumTopicTypeFilter<"Topic"> | $Enums.TopicType
     tags?: StringNullableListFilter<"Topic">
     miniDesc?: StringFilter<"Topic"> | string
+    citations?: StringNullableListFilter<"Topic">
     publishedAt?: DateTimeFilter<"Topic"> | Date | string
     savedBy?: UserListRelationFilter
   }, "id">
@@ -7131,6 +7144,7 @@ export namespace Prisma {
     type?: SortOrder
     tags?: SortOrder
     miniDesc?: SortOrder
+    citations?: SortOrder
     publishedAt?: SortOrder
     _count?: TopicCountOrderByAggregateInput
     _max?: TopicMaxOrderByAggregateInput
@@ -7148,6 +7162,7 @@ export namespace Prisma {
     type?: EnumTopicTypeWithAggregatesFilter<"Topic"> | $Enums.TopicType
     tags?: StringNullableListFilter<"Topic">
     miniDesc?: StringWithAggregatesFilter<"Topic"> | string
+    citations?: StringNullableListFilter<"Topic">
     publishedAt?: DateTimeWithAggregatesFilter<"Topic"> | Date | string
   }
 
@@ -7424,6 +7439,7 @@ export namespace Prisma {
     type: $Enums.TopicType
     tags?: TopicCreatetagsInput | string[]
     miniDesc: string
+    citations?: TopicCreatecitationsInput | string[]
     publishedAt?: Date | string
     savedBy?: UserCreateNestedManyWithoutSavedTopicsInput
   }
@@ -7436,6 +7452,7 @@ export namespace Prisma {
     type: $Enums.TopicType
     tags?: TopicCreatetagsInput | string[]
     miniDesc: string
+    citations?: TopicCreatecitationsInput | string[]
     publishedAt?: Date | string
     savedBy?: UserUncheckedCreateNestedManyWithoutSavedTopicsInput
   }
@@ -7448,6 +7465,7 @@ export namespace Prisma {
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string
+    citations?: TopicUpdatecitationsInput | string[]
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     savedBy?: UserUpdateManyWithoutSavedTopicsNestedInput
   }
@@ -7460,6 +7478,7 @@ export namespace Prisma {
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string
+    citations?: TopicUpdatecitationsInput | string[]
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     savedBy?: UserUncheckedUpdateManyWithoutSavedTopicsNestedInput
   }
@@ -7472,6 +7491,7 @@ export namespace Prisma {
     type: $Enums.TopicType
     tags?: TopicCreatetagsInput | string[]
     miniDesc: string
+    citations?: TopicCreatecitationsInput | string[]
     publishedAt?: Date | string
   }
 
@@ -7483,6 +7503,7 @@ export namespace Prisma {
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string
+    citations?: TopicUpdatecitationsInput | string[]
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -7494,6 +7515,7 @@ export namespace Prisma {
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string
+    citations?: TopicUpdatecitationsInput | string[]
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -7871,6 +7893,7 @@ export namespace Prisma {
     type?: SortOrder
     tags?: SortOrder
     miniDesc?: SortOrder
+    citations?: SortOrder
     publishedAt?: SortOrder
   }
 
@@ -8122,6 +8145,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type TopicCreatecitationsInput = {
+    set: string[]
+  }
+
   export type UserCreateNestedManyWithoutSavedTopicsInput = {
     create?: XOR<UserCreateWithoutSavedTopicsInput, UserUncheckedCreateWithoutSavedTopicsInput> | UserCreateWithoutSavedTopicsInput[] | UserUncheckedCreateWithoutSavedTopicsInput[]
     connectOrCreate?: UserCreateOrConnectWithoutSavedTopicsInput | UserCreateOrConnectWithoutSavedTopicsInput[]
@@ -8139,6 +8166,11 @@ export namespace Prisma {
   }
 
   export type TopicUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type TopicUpdatecitationsInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -8489,6 +8521,7 @@ export namespace Prisma {
     type: $Enums.TopicType
     tags?: TopicCreatetagsInput | string[]
     miniDesc: string
+    citations?: TopicCreatecitationsInput | string[]
     publishedAt?: Date | string
   }
 
@@ -8500,6 +8533,7 @@ export namespace Prisma {
     type: $Enums.TopicType
     tags?: TopicCreatetagsInput | string[]
     miniDesc: string
+    citations?: TopicCreatecitationsInput | string[]
     publishedAt?: Date | string
   }
 
@@ -8595,6 +8629,7 @@ export namespace Prisma {
     type?: EnumTopicTypeFilter<"Topic"> | $Enums.TopicType
     tags?: StringNullableListFilter<"Topic">
     miniDesc?: StringFilter<"Topic"> | string
+    citations?: StringNullableListFilter<"Topic">
     publishedAt?: DateTimeFilter<"Topic"> | Date | string
   }
 
@@ -8794,6 +8829,7 @@ export namespace Prisma {
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string
+    citations?: TopicUpdatecitationsInput | string[]
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -8805,6 +8841,7 @@ export namespace Prisma {
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string
+    citations?: TopicUpdatecitationsInput | string[]
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -8816,6 +8853,7 @@ export namespace Prisma {
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string
+    citations?: TopicUpdatecitationsInput | string[]
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
