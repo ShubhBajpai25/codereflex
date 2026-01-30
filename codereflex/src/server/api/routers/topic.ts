@@ -7,10 +7,9 @@ export const topicRouter = createTRPCRouter({
     getLatest: publicProcedure
         .input(z.object({ type: z.nativeEnum(TopicType) }))
         .query(async ({ctx, input}) => {
-            return await ctx.db.topic.findMany({
+            return await ctx.db.topic.findFirst({
                 where: { type: input.type },
                 orderBy: { publishedAt: "desc" },
-                take: 30, //need to fix to show either 30/31/28 based on the month 
             });
         }),
     
