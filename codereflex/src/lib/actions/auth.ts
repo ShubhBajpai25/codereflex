@@ -3,9 +3,9 @@
 import { signIn, signOut} from "~/server/auth"
 
 export const login = async () => {
-    await signIn("google", {redirectTo: "/dashboard"});
+    await signIn("google", {redirectTo: "/"});
 }
 
 export const logout = async () => {
-    await signOut({redirectTo: "/"});
+    await signOut({redirectTo: "/sign-in"});
 }

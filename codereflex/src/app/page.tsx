@@ -8,7 +8,7 @@ export default async function HomePage() {
 
   // Protect the route: if no session, go to login
   if (!session) {
-    redirect("/login");
+    redirect("/sign-in");
   }
 
   return (
