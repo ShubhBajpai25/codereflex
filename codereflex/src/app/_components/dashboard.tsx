@@ -179,7 +179,7 @@ function DashboardHeader({ user, viewMode, setViewMode }: { user: any, viewMode:
                 <p className="text-xs text-muted-foreground">{user?.email}</p>
              </div>
              <DropdownMenuSeparator />
-             <DropdownMenuItem onClick={() => void signOut({ callbackUrl: "/login" })} className="text-destructive">
+             <DropdownMenuItem onClick={() => void signOut({ callbackUrl: "/sign-in" })} className="text-destructive">
                <LogOut className="w-4 h-4 mr-2" /> Sign out
              </DropdownMenuItem>
           </DropdownMenuContent>

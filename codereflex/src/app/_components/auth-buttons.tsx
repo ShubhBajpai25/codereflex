@@ -21,7 +21,7 @@ export function AuthButtons({ isSignedIn }: AuthButtonsProps) {
     <Button 
       className="bg-accent text-accent-foreground hover:bg-accent/90 px-8 h-12 text-lg font-medium"
       // Force the redirect to /dashboard after Google login
-      onClick={() => void signIn("google", { callbackUrl: "/dashboard" })}
+      onClick={() => void signIn("google", { callbackUrl: "/" })}
     >
       Join the Community
     </Button>
