@@ -1,19 +1,29 @@
-"use client"
+// src/app/_components/auth-buttons.tsx
+"use client";
 
-import {login, logout} from "~/lib/actions/auth";
+import { signIn, signOut } from "next-auth/react";
+import { Button } from "~/components/ui/button";
 
-export function AuthButtons({ isSignedIn }: { isSignedIn: boolean }) {
+interface AuthButtonsProps {
+  isSignedIn: boolean;
+}
+
+export function AuthButtons({ isSignedIn }: AuthButtonsProps) {
+  if (isSignedIn) {
     return (
-        <div className="flex gap-4">
-            {!isSignedIn ? (
-                <button onClick={() => login()} className="bg-blue-500 p-2 rounded">
-                    Sign in with Google
-                </button>
-            ): (
-                <button onClick={() => logout()} className="bg-blue-500 p-2 rounded">
-                Sign Out 
-                </button>
-            )}
-        </div>
+      <Button variant="outline" onClick={() => void signOut()}>
+        Sign Out
+      </Button>
     );
+  }
+
+  return (
+    <Button 
+      className="bg-accent text-accent-foreground hover:bg-accent/90 px-8 h-12 text-lg font-medium"
+      // Force the redirect to /dashboard after Google login
+      onClick={() => void signIn("google", { callbackUrl: "/dashboard" })}
+    >
+      Join the Community
+    </Button>
+  );
 }
