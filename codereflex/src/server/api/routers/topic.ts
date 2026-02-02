@@ -4,6 +4,16 @@ import { generateDailyTopic, generateWeeklyTopic } from "~/server/ai/gemini";
 import {createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc"
 
 export const topicRouter = createTRPCRouter({
+
+    getArchives: publicProcedure
+        .input(z.object({ type: z.nativeEnum(TopicType) }))
+        .query(async ({ctx, input}) => {
+            return await ctx.db.topic.findMany({
+                where: {type: input.type},
+                orderBy: {publishedAt: "desc"},
+                take: 100,
+            });
+        }),
     getLatest: publicProcedure
         .input(z.object({ type: z.nativeEnum(TopicType) }))
         .query(async ({ctx, input}) => {
@@ -12,6 +22,25 @@ export const topicRouter = createTRPCRouter({
                 orderBy: { publishedAt: "desc" },
             });
         }),
+
+        getByDate: publicProcedure
+            .input(z.object({date: z.date(), type: z.nativeEnum(TopicType)}))
+            .query(async ({ctx, input}) => {
+                const start = new Date(input.date);
+                start.setHours(0,0,0,0);
+                const end = new Date(input.date)
+                end.setHours(0,0,0,0)
+
+                return await ctx.db.topic.findFirst({
+                    where: {
+                        type: input.type,
+                        publishedAt: {
+                            gte: start,
+                            lte: end,
+                        },
+                    },
+                });
+            }),
     
         toggleSave: protectedProcedure
             .input(z.object({ topicId: z.string(), shouldSave: z.boolean() }))
