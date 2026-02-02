@@ -9,6 +9,8 @@ import { type Metadata, type Viewport } from "next";
 import { Geist } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { ThemeProvider } from "next-themes";
+import { ThemeToggle } from "./_components/theme-toggle";
 
 export const metadata: Metadata = {
   title: "CodeReflex | Never Stop Learning",
@@ -30,10 +32,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-        <TRPCReactProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TRPCReactProvider>
           {children}
+          <ThemeToggle />
           <Analytics />
-        </TRPCReactProvider>
+          </TRPCReactProvider>
+        </ThemeProvider>   
       </body>
     </html>
   );
