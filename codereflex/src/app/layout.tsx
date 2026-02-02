@@ -1,4 +1,4 @@
-import "~/styles/globals.css";
+import "~/app/global.css";
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 

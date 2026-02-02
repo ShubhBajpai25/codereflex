@@ -5,6 +5,7 @@
 
 :root {
   /* Light theme colors */
+  --champagne-gold: oklch(0.72 0.1 85);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -28,42 +29,46 @@
 }
 
 .dark {
-  /* Pure Black and Gold Theme */
-  --background: oklch(0 0 0); /* Pure black #000000 */
+  /* Obsidian Black + Champagne Gold Theme */
+  --background: oklch(0.06 0.005 270); /* Deep obsidian */
   --foreground: oklch(0.98 0 0); /* Near white */
   
-  /* Cards - Very dark with subtle glow */
-  --card: oklch(0.08 0 0); /* Almost black */
+  /* Champagne Gold - refined accent */
+  --champagne-gold: oklch(0.78 0.08 85);
+  --champagne-gold-muted: oklch(0.72 0.06 85);
+  
+  /* Cards - Glass-friendly dark */
+  --card: oklch(0.08 0.005 270);
   --card-foreground: oklch(0.98 0 0);
   
-  /* Popovers - Elevated dark */
-  --popover: oklch(0.12 0 0);
+  /* Popovers - Elevated glass */
+  --popover: oklch(0.1 0.01 270);
   --popover-foreground: oklch(0.98 0 0);
   
-  /* Primary - Rich Gold */
-  --primary: oklch(0.77 0.15 85); /* Rich gold #D4AF37 */
-  --primary-foreground: oklch(0.08 0 0); /* Black text on gold */
+  /* Primary - Champagne Gold */
+  --primary: var(--champagne-gold);
+  --primary-foreground: oklch(0.08 0 0);
   
   /* Secondary - Dark with gold tint */
-  --secondary: oklch(0.15 0.02 85); /* Very dark with gold undertone */
+  --secondary: oklch(0.12 0.02 85);
   --secondary-foreground: oklch(0.98 0 0);
   
   /* Muted */
-  --muted: oklch(0.25 0 0); /* Dark gray */
-  --muted-foreground: oklch(0.55 0 0); /* Medium gray */
+  --muted: oklch(0.28 0.01 270);
+  --muted-foreground: oklch(0.55 0 0);
   
-  /* Accent - Bright Gold */
-  --accent: oklch(0.82 0.18 85); /* Brighter gold for highlights */
-  --accent-foreground: oklch(0.08 0 0); /* Black text */
+  /* Accent - Champagne Gold */
+  --accent: var(--champagne-gold);
+  --accent-foreground: oklch(0.08 0 0);
   
   /* Destructive */
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
   
-  /* Borders - Subtle gold shimmer */
-  --border: oklch(0.18 0.03 85); /* Dark with gold tint */
-  --input: oklch(0.18 0.03 85);
-  --ring: oklch(0.77 0.15 85); /* Gold ring */
+  /* Borders - Subtle glass border */
+  --border: oklch(0.2 0.02 85);
+  --input: oklch(0.18 0.02 85);
+  --ring: var(--champagne-gold);
 }
 
 @theme inline {
@@ -88,6 +93,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-champagne-gold: var(--champagne-gold);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -215,21 +221,52 @@
 
   .gold-gradient {
     background: linear-gradient(135deg, 
-      oklch(0.77 0.15 85) 0%, 
-      oklch(0.82 0.18 85) 50%, 
-      oklch(0.77 0.15 85) 100%
+      oklch(0.78 0.08 85) 0%, 
+      oklch(0.82 0.1 85) 50%, 
+      oklch(0.78 0.08 85) 100%
     );
   }
 
   .gold-text-gradient {
     background: linear-gradient(135deg, 
-      oklch(0.77 0.15 85) 0%, 
-      oklch(0.85 0.2 80) 50%, 
-      oklch(0.77 0.15 85) 100%
+      oklch(0.78 0.08 85) 0%, 
+      oklch(0.82 0.1 85) 50%, 
+      oklch(0.78 0.08 85) 100%
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Glassmorphism base */
+  .glass {
+    background: rgb(255 255 255 / 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgb(255 255 255 / 0.1);
+  }
+  .glass-dark {
+    background: rgb(0 0 0 / 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgb(255 255 255 / 0.1);
+  }
+
+  /* Obsidian background with gold corner gradients */
+  .bg-obsidian-gold {
+    background-color: oklch(0.06 0.005 270);
+    position: relative;
+  }
+  .bg-obsidian-gold::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: 
+      radial-gradient(ellipse 80% 50% at 0% 0%, oklch(0.78 0.08 85 / 0.12) 0%, transparent 50%),
+      radial-gradient(ellipse 80% 50% at 100% 0%, oklch(0.78 0.08 85 / 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.78 0.08 85 / 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse 80% 50% at 0% 100%, oklch(0.78 0.08 85 / 0.1) 0%, transparent 50%);
   }
 
   .stagger-1 { animation-delay: 0.1s; }
