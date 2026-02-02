@@ -15,85 +15,55 @@
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.67 0.19 155); /* Emerald-500 in oklch */
+  --accent: oklch(0.77 0.15 85); /* Gold accent */
   --accent-foreground: oklch(0.145 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.98 0 0);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.67 0.19 155);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --ring: oklch(0.77 0.15 85);
   --radius: 0.75rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
 }
 
 .dark {
-  /* Pure Black background for CodeReflex */
+  /* Pure Black and Gold Theme */
   --background: oklch(0 0 0); /* Pure black #000000 */
-  --foreground: oklch(0.985 0 0); /* Near white */
+  --foreground: oklch(0.98 0 0); /* Near white */
   
-  /* Cards - Very dark with subtle lightness */
-  --card: oklch(0.15 0 0); /* ~zinc-950 */
-  --card-foreground: oklch(0.985 0 0);
+  /* Cards - Very dark with subtle glow */
+  --card: oklch(0.08 0 0); /* Almost black */
+  --card-foreground: oklch(0.98 0 0);
   
-  /* Popovers */
-  --popover: oklch(0.15 0 0);
-  --popover-foreground: oklch(0.985 0 0);
+  /* Popovers - Elevated dark */
+  --popover: oklch(0.12 0 0);
+  --popover-foreground: oklch(0.98 0 0);
   
-  /* Primary - Emerald accent */
-  --primary: oklch(0.67 0.19 155); /* Emerald-500 */
-  --primary-foreground: oklch(0.145 0 0); /* Black text on emerald */
+  /* Primary - Rich Gold */
+  --primary: oklch(0.77 0.15 85); /* Rich gold #D4AF37 */
+  --primary-foreground: oklch(0.08 0 0); /* Black text on gold */
   
-  /* Secondary - Dark gray */
-  --secondary: oklch(0.25 0 0); /* ~zinc-900 */
-  --secondary-foreground: oklch(0.985 0 0);
+  /* Secondary - Dark with gold tint */
+  --secondary: oklch(0.15 0.02 85); /* Very dark with gold undertone */
+  --secondary-foreground: oklch(0.98 0 0);
   
   /* Muted */
-  --muted: oklch(0.35 0 0); /* ~zinc-800 */
-  --muted-foreground: oklch(0.65 0 0); /* ~zinc-400 */
+  --muted: oklch(0.25 0 0); /* Dark gray */
+  --muted-foreground: oklch(0.55 0 0); /* Medium gray */
   
-  /* Accent - Emerald for highlights */
-  --accent: oklch(0.72 0.17 160); /* Emerald-400 */
-  --accent-foreground: oklch(0.145 0 0); /* Black text */
+  /* Accent - Bright Gold */
+  --accent: oklch(0.82 0.18 85); /* Brighter gold for highlights */
+  --accent-foreground: oklch(0.08 0 0); /* Black text */
   
-  /* Destructive - Red tones */
-  --destructive: oklch(0.55 0.22 25); /* Red-500 */
+  /* Destructive */
+  --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
   
-  /* Borders - Subtle zinc */
-  --border: oklch(0.25 0 0); /* ~zinc-900 */
-  --input: oklch(0.25 0 0);
-  --ring: oklch(0.67 0.19 155); /* Emerald ring */
-  
-  /* Charts */
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  
-  /* Sidebar */
-  --sidebar: oklch(0.15 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.67 0.19 155);
-  --sidebar-primary-foreground: oklch(0.145 0 0);
-  --sidebar-accent: oklch(0.25 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.25 0 0);
-  --sidebar-ring: oklch(0.67 0.19 155);
+  /* Borders - Subtle gold shimmer */
+  --border: oklch(0.18 0.03 85); /* Dark with gold tint */
+  --input: oklch(0.18 0.03 85);
+  --ring: oklch(0.77 0.15 85); /* Gold ring */
 }
 
 @theme inline {
@@ -118,23 +88,10 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
@@ -144,27 +101,148 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-}
 
-/* Smooth page transitions */
-@layer utilities {
-  .page-transition {
-    @apply transition-all duration-300 ease-in-out;
+  /* Smooth page transitions */
+  .page-enter {
+    opacity: 0;
+    transform: translateY(20px);
   }
   
-  .card-hover {
-    @apply transition-all duration-200 hover:shadow-lg hover:scale-[1.02];
+  .page-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 600ms ease-out, transform 600ms ease-out;
+  }
+  
+  .page-exit {
+    opacity: 1;
+  }
+  
+  .page-exit-active {
+    opacity: 0;
+    transition: opacity 400ms ease-in;
   }
 }
 
-/* Custom scrollbar for dark theme */
+@layer utilities {
+  /* Fade in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  @keyframes glow {
+    0%, 100% {
+      box-shadow: 0 0 20px oklch(0.77 0.15 85 / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px oklch(0.77 0.15 85 / 0.5);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in-scale {
+    animation: fadeInScale 0.5s ease-out forwards;
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      oklch(0.77 0.15 85 / 0.1),
+      transparent
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 3s infinite;
+  }
+
+  .animate-glow {
+    animation: glow 3s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .glass-effect {
+    background: oklch(0.08 0 0 / 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .gold-gradient {
+    background: linear-gradient(135deg, 
+      oklch(0.77 0.15 85) 0%, 
+      oklch(0.82 0.18 85) 50%, 
+      oklch(0.77 0.15 85) 100%
+    );
+  }
+
+  .gold-text-gradient {
+    background: linear-gradient(135deg, 
+      oklch(0.77 0.15 85) 0%, 
+      oklch(0.85 0.2 80) 50%, 
+      oklch(0.77 0.15 85) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
+}
+
+/* Custom scrollbar with gold accent */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -172,10 +250,17 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: oklch(0.35 0 0);
-  border-radius: 4px;
+  background: oklch(0.25 0.03 85);
+  border-radius: 5px;
+  border: 2px solid oklch(0 0 0);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.67 0.19 155 / 0.5);
+  background: oklch(0.77 0.15 85 / 0.7);
+}
+
+/* Selection color */
+::selection {
+  background: oklch(0.77 0.15 85 / 0.3);
+  color: oklch(0.98 0 0);
 }

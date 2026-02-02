@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "~/components/ui/button"
-import { Code2, ArrowUp, ChevronLeft, ChevronRight, Calendar, Loader2 } from "lucide-react"
+import { Code2, ArrowUp, ChevronLeft, ChevronRight, Calendar, Loader2, Star, Sparkles } from "lucide-react"
 import { cn } from "~/lib/utils"
 import { api } from "~/trpc/react"
 
@@ -95,52 +95,64 @@ export default function CalendarPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col relative overflow-hidden animate-fade-in">
+      {/* Animated background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-10 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-10 left-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
+      </div>
+
       {/* Sticky Top Banner */}
-      <div className="sticky top-0 z-50 flex justify-center py-3 bg-accent/10 border-b border-accent/20 backdrop-blur-sm">
+      <div className="sticky top-0 z-50 flex justify-center py-4 bg-accent/10 border-b border-accent/30 backdrop-blur-xl shadow-lg shadow-accent/10 animate-fade-in">
         <Button 
           onClick={() => router.push("/")} 
-          className="bg-accent text-accent-foreground hover:opacity-90 font-medium gap-2 shadow-lg"
+          className="gold-gradient text-accent-foreground hover:opacity-90 font-bold gap-3 shadow-2xl shadow-accent/30 px-8 py-6 text-base rounded-2xl transition-all duration-300 hover:scale-105"
         >
-          <ArrowUp className="w-4 h-4" /> Jump Back to the Present!
+          <ArrowUp className="w-5 h-5 animate-bounce" /> 
+          Jump Back to the Present!
+          <Sparkles className="w-5 h-5 animate-pulse" />
         </Button>
       </div>
 
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-4 border-b border-border">
-        <div className="flex items-center gap-2">
-          <div className="bg-accent p-1.5 rounded-lg">
-            <Code2 className="w-5 h-5 text-accent-foreground" />
+      <header className="relative z-40 flex items-center justify-between px-6 py-5 border-b border-border/50 backdrop-blur-md bg-background/90 animate-fade-in stagger-1">
+        <div className="flex items-center gap-3">
+          <div className="gold-gradient p-2 rounded-xl shadow-lg shadow-accent/20 animate-glow">
+            <Code2 className="w-6 h-6 text-accent-foreground" />
           </div>
-          <span className="text-xl font-semibold text-foreground">CodeReflex</span>
+          <span className="text-2xl font-bold gold-text-gradient">CodeReflex</span>
         </div>
         
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
-          <Calendar className="w-5 h-5 text-muted-foreground" />
-          <span className="font-medium text-foreground">Archive</span>
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-3">
+          <Calendar className="w-6 h-6 text-accent animate-pulse" />
+          <span className="font-bold text-xl text-foreground">Archive</span>
+          <Star className="w-5 h-5 text-accent animate-pulse" style={{ animationDelay: '0.5s' }} />
         </div>
         
         <Button 
           variant="outline" 
           onClick={() => setShowYearSelector(!showYearSelector)}
-          className="border-border text-muted-foreground hover:border-accent hover:text-foreground"
+          className="border-accent/30 text-accent hover:border-accent hover:bg-accent/10 font-semibold px-6 py-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg"
         >
           {showYearSelector ? "Hide Years" : "Show Years"}
         </Button>
       </header>
 
-      {/* Year Selector */}
+      {/* Year Selector with animation */}
       {showYearSelector && (
-        <div className="border-b border-border bg-card/50 p-4">
-          <div className="flex justify-center gap-3 flex-wrap max-w-4xl mx-auto">
-            {years.map(y => (
+        <div className="relative z-30 border-b border-border/50 bg-card/80 backdrop-blur-md p-6 animate-fade-in-scale">
+          <div className="flex justify-center gap-4 flex-wrap max-w-4xl mx-auto">
+            {years.map((y, index) => (
               <Button 
                 key={y} 
                 variant={y === selectedYear ? "default" : "outline"}
-                className={y === selectedYear 
-                  ? "bg-accent text-accent-foreground hover:opacity-90" 
-                  : "border-border text-muted-foreground hover:border-accent hover:text-foreground"
-                }
+                className={cn(
+                  "font-bold px-8 py-6 text-base rounded-xl transition-all duration-300 hover:scale-110 shadow-lg animate-fade-in-scale",
+                  y === selectedYear 
+                    ? "gold-gradient text-accent-foreground shadow-accent/30" 
+                    : "border-accent/30 text-muted-foreground hover:border-accent hover:text-accent hover:bg-accent/10"
+                )}
+                style={{ animationDelay: `${index * 0.05}s` }}
                 onClick={() => { 
                   setSelectedYear(y); 
                   setShowYearSelector(false);
@@ -155,48 +167,49 @@ export default function CalendarPage() {
       )}
 
       {/* Navigation Bar */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+      <div className="relative z-30 flex items-center justify-between px-6 py-6 border-b border-border/50 backdrop-blur-sm bg-background/80 animate-fade-in stagger-2">
         <Button 
           variant="ghost" 
           onClick={() => viewLevel === "days" ? navigateMonth("prev") : setSelectedYear(selectedYear - 1)}
-          className="text-muted-foreground hover:text-foreground hover:bg-secondary"
+          className="text-muted-foreground hover:text-accent hover:bg-accent/10 font-semibold px-6 py-6 rounded-xl transition-all duration-300 hover:scale-110 border border-transparent hover:border-accent/30"
         >
-          <ChevronLeft className="w-5 h-5 mr-1" /> 
-          {viewLevel === "days" ? "Previous" : "2024"}
+          <ChevronLeft className="w-6 h-6 mr-2" /> 
+          {viewLevel === "days" ? "Previous" : selectedYear - 1}
         </Button>
         
         <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-semibold text-foreground">
+          <h2 className="text-3xl font-black text-foreground mb-2">
             {viewLevel === "days" ? `${MONTHS[selectedMonth]} ${selectedYear}` : selectedYear}
           </h2>
           <button 
             onClick={() => setViewLevel(viewLevel === "days" ? "month" : "days")} 
-            className="text-xs text-accent hover:underline mt-1"
+            className="text-sm text-accent hover:text-accent/80 font-semibold transition-colors flex items-center gap-2 hover:underline"
           >
             {viewLevel === "days" ? "View All Months" : "Back to Calendar"}
+            <Sparkles className="w-4 h-4" />
           </button>
         </div>
         
         <Button 
           variant="ghost" 
           onClick={() => viewLevel === "days" ? navigateMonth("next") : setSelectedYear(selectedYear + 1)}
-          className="text-muted-foreground hover:text-foreground hover:bg-secondary"
+          className="text-muted-foreground hover:text-accent hover:bg-accent/10 font-semibold px-6 py-6 rounded-xl transition-all duration-300 hover:scale-110 border border-transparent hover:border-accent/30"
         >
-          {viewLevel === "days" ? "Next" : "2026"}
-          <ChevronRight className="w-5 h-5 ml-1" />
+          {viewLevel === "days" ? "Next" : selectedYear + 1}
+          <ChevronRight className="w-6 h-6 ml-2" />
         </Button>
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 p-6 overflow-auto">
+      <main className="relative z-10 flex-1 p-6 overflow-auto">
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center h-64 gap-4 text-muted-foreground">
-            <Loader2 className="w-8 h-8 animate-spin text-accent" />
-            <p>Scanning historical records...</p>
+          <div className="flex flex-col items-center justify-center h-64 gap-6 text-muted-foreground animate-fade-in">
+            <Loader2 className="w-12 h-12 animate-spin text-accent" />
+            <p className="text-xl font-semibold">Scanning historical records...</p>
           </div>
         ) : viewLevel === "month" ? (
           // Month Grid View
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {MONTHS.map((m, i) => {
               const topicCount = getTopicsForMonth(selectedYear, i);
               return (
@@ -206,14 +219,19 @@ export default function CalendarPage() {
                     setSelectedMonth(i); 
                     setViewLevel("days") 
                   }} 
-                  className="p-8 rounded-xl border border-border bg-card hover:border-accent/50 transition-all text-left group"
+                  className="group relative p-10 rounded-2xl border-2 border-border bg-card/80 backdrop-blur-sm hover:border-accent/50 transition-all duration-300 text-left hover:scale-105 shadow-lg hover:shadow-accent/20 animate-fade-in-scale"
+                  style={{ animationDelay: `${i * 0.05}s` }}
                 >
-                  <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent/0 via-accent/5 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <h3 className="relative text-2xl font-black text-foreground mb-3 group-hover:text-accent transition-colors">
                     {m}
                   </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {topicCount} {topicCount === 1 ? 'topic' : 'topics'}
-                  </p>
+                  <div className="relative flex items-center gap-2">
+                    <Star className="w-4 h-4 text-accent" />
+                    <p className="text-sm font-semibold text-muted-foreground group-hover:text-accent transition-colors">
+                      {topicCount} {topicCount === 1 ? 'topic' : 'topics'}
+                    </p>
+                  </div>
                 </button>
               );
             })}
@@ -222,19 +240,23 @@ export default function CalendarPage() {
           // Day Grid View
           <div className="max-w-7xl mx-auto">
             {/* Day Headers */}
-            <div className="grid grid-cols-7 gap-2 mb-4">
-              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(d => (
-                <div key={d} className="text-center text-xs font-bold text-muted-foreground uppercase">
+            <div className="grid grid-cols-7 gap-3 mb-6">
+              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d, i) => (
+                <div 
+                  key={d} 
+                  className="text-center text-sm font-black text-accent uppercase tracking-wider animate-fade-in"
+                  style={{ animationDelay: `${i * 0.05}s` }}
+                >
                   {d}
                 </div>
               ))}
             </div>
 
             {/* Calendar Grid */}
-            <div className="grid grid-cols-7 gap-2">
+            <div className="grid grid-cols-7 gap-3">
               {Array.from({ length: calendarDays.firstDay }).map((_, i) => <div key={`empty-${i}`} />)}
               
-              {calendarDays.days.map(({ date }) => {
+              {calendarDays.days.map(({ date }, index) => {
                 const topic = getTopicForDate(date)
                 const isTodayDate = isToday(date)
                 const isAvailable = !!topic
@@ -250,34 +272,45 @@ export default function CalendarPage() {
                       }
                     }}
                     className={cn(
-                      "relative rounded-lg border p-3 text-left transition-all min-h-36 flex flex-col group",
+                      "group relative rounded-2xl border-2 p-4 text-left transition-all duration-300 min-h-40 flex flex-col animate-fade-in-scale",
                       isTodayDate 
-                        ? "border-accent bg-accent/5 ring-2 ring-accent/20" 
-                        : "border-border bg-card",
+                        ? "border-accent bg-accent/10 ring-4 ring-accent/20 shadow-lg shadow-accent/30 animate-glow" 
+                        : "border-border bg-card/80 backdrop-blur-sm",
                       isAvailable 
-                        ? "hover:border-accent/50 cursor-pointer hover:shadow-lg hover:shadow-accent/5" 
+                        ? "hover:border-accent/60 cursor-pointer hover:shadow-2xl hover:shadow-accent/20 hover:scale-105" 
                         : "opacity-40 cursor-not-allowed"
                     )}
+                    style={{ animationDelay: `${index * 0.02}s` }}
                   >
+                    {isAvailable && (
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent/0 via-accent/5 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    )}
+                    
                     <span className={cn(
-                      "text-sm font-bold mb-2",
+                      "relative text-base font-black mb-3 flex items-center gap-2",
                       isTodayDate ? "text-accent" : "text-foreground"
                     )}>
                       {date.getDate()}
-                      {isTodayDate && <span className="ml-1 text-accent">Today</span>}
+                      {isTodayDate && (
+                        <>
+                          <Star className="w-4 h-4 text-accent animate-pulse" />
+                          <span className="text-xs font-bold text-accent">Today</span>
+                        </>
+                      )}
                     </span>
 
                     {topic && (
-                      <div className="mt-auto flex flex-col flex-1 justify-between">
+                      <div className="relative mt-auto flex flex-col flex-1 justify-between">
                         <div>
-                          <span className="inline-block px-2 py-0.5 text-[9px] rounded-full bg-secondary text-muted-foreground border border-border mb-2">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 text-[9px] rounded-lg bg-accent/20 text-accent border border-accent/30 mb-2 font-bold uppercase tracking-wider">
+                            <Sparkles className="w-3 h-3" />
                             History
                           </span>
-                          <h4 className="text-[11px] font-semibold leading-tight line-clamp-2 text-foreground mb-1">
+                          <h4 className="text-xs font-bold leading-tight line-clamp-2 text-foreground mb-2 group-hover:text-accent transition-colors">
                             {topic.title}
                           </h4>
                         </div>
-                        <p className="text-[10px] text-muted-foreground line-clamp-2">
+                        <p className="text-[10px] text-muted-foreground line-clamp-2 leading-relaxed">
                           {topic.miniDesc}
                         </p>
                       </div>
