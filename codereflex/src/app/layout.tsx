@@ -10,6 +10,7 @@ import { Geist } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "next-themes";
+import { Toaster } from "sonner";
 import { ThemeToggle } from "./_components/theme-toggle";
 
 export const metadata: Metadata = {
@@ -41,6 +42,18 @@ export default function RootLayout({
           <TRPCReactProvider>
           {children}
           <ThemeToggle />
+          <Toaster
+            theme="dark"
+            position="bottom-right"
+            toastOptions={{
+              duration: 6000,
+              style: {
+                background: "oklch(0.12 0.02 270)",
+                border: "1px solid rgb(255 255 255 / 0.1)",
+                borderRadius: "1rem",
+              },
+            }}
+          />
           <Analytics />
           </TRPCReactProvider>
         </ThemeProvider>   

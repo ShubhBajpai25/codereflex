@@ -1,7 +1,21 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Badge } from "~/components/ui/badge";
-import { Calendar, Lightbulb, Star, Sparkles, TrendingUp, Award } from "lucide-react";
+import { Button } from "~/components/ui/button";
+import {
+  Calendar,
+  Lightbulb,
+  Star,
+  Sparkles,
+  TrendingUp,
+  Award,
+  Bookmark,
+  BookmarkCheck,
+  Loader2,
+} from "lucide-react";
+import { toast } from "sonner";
+import { api } from "~/trpc/react";
 
 interface FactCardProps {
   fact: {
@@ -17,8 +31,36 @@ interface FactCardProps {
   viewMode: "DAILY" | "WEEKLY";
 }
 
+const SAVED_TOAST_DURATION_MS = 6000;
+
 export function FactCard({ fact, viewMode }: FactCardProps) {
   const date = new Date(fact.publishedAt);
+  const router = useRouter();
+
+  const { data: savedTopicIds = [] } = api.topic.getSavedTopicIds.useQuery();
+  const utils = api.useUtils();
+  const toggleSave = api.topic.toggleSave.useMutation({
+    onSuccess: (_, variables) => {
+      void utils.topic.getSavedTopicIds.invalidate();
+      if (variables.shouldSave) {
+        toast.success("Topic saved! You can revisit it anytime.", {
+          duration: SAVED_TOAST_DURATION_MS,
+          dismissible: true,
+          action: {
+            label: "View Saved Topics",
+            onClick: () => router.push("/saved-topics"),
+          },
+        });
+      }
+    },
+  });
+
+  const isSaved = savedTopicIds.includes(fact.id);
+  const isSaving = toggleSave.isPending;
+
+  const handleSaveClick = () => {
+    toggleSave.mutate({ topicId: fact.id, shouldSave: !isSaved });
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto relative">
@@ -60,16 +102,40 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
               </div>
             </div>
           </div>
-          <Badge
-            variant="secondary"
-            className={`${
-              viewMode === "DAILY"
-                ? "gold-gradient text-accent-foreground border-[var(--champagne-gold)]/40"
-                : "bg-destructive/20 text-destructive border-destructive/40"
-            } px-5 py-2 text-sm font-bold rounded-xl animate-fade-in stagger-1 border`}
-          >
-            {viewMode === "DAILY" ? "Languages" : "Databases"}
-          </Badge>
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleSaveClick}
+              disabled={isSaving}
+              className={`
+                h-11 w-11 rounded-xl border transition-all duration-200 shrink-0
+                ${isSaved
+                  ? "bg-[var(--champagne-gold)]/20 border-[var(--champagne-gold)]/50 text-[var(--champagne-gold)] hover:bg-[var(--champagne-gold)]/30"
+                  : "bg-white/5 border-white/10 text-muted-foreground hover:border-[var(--champagne-gold)]/50 hover:text-[var(--champagne-gold)]"
+                }
+              `}
+              aria-label={isSaved ? "Unsave topic" : "Save topic"}
+            >
+              {isSaving ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : isSaved ? (
+                <BookmarkCheck className="w-5 h-5" />
+              ) : (
+                <Bookmark className="w-5 h-5" />
+              )}
+            </Button>
+            <Badge
+              variant="secondary"
+              className={`${
+                viewMode === "DAILY"
+                  ? "gold-gradient text-accent-foreground border-[var(--champagne-gold)]/40"
+                  : "bg-destructive/20 text-destructive border-destructive/40"
+              } px-5 py-2 text-sm font-bold rounded-xl animate-fade-in stagger-1 border`}
+            >
+              {viewMode === "DAILY" ? "Languages" : "Databases"}
+            </Badge>
+          </div>
         </div>
 
         {/* Title with gradient */}

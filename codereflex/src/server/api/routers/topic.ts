@@ -41,7 +41,28 @@ export const topicRouter = createTRPCRouter({
                     },
                 });
             }),
-    
+
+        getSavedTopicIds: protectedProcedure
+            .query(async ({ ctx }) => {
+                const user = await ctx.db.user.findUnique({
+                    where: { id: ctx.session.user.id },
+                    select: { savedTopics: { select: { id: true } } },
+                });
+                return (user?.savedTopics ?? []).map((t) => t.id);
+            }),
+
+        getSaved: protectedProcedure
+            .query(async ({ ctx }) => {
+                const user = await ctx.db.user.findUnique({
+                    where: { id: ctx.session.user.id },
+                    select: { savedTopics: true },
+                });
+                const topics = user?.savedTopics ?? [];
+                return topics.slice().sort(
+                    (a, b) => b.publishedAt.getTime() - a.publishedAt.getTime()
+                );
+            }),
+
         toggleSave: protectedProcedure
             .input(z.object({ topicId: z.string(), shouldSave: z.boolean() }))
             .mutation(async ({ ctx, input }) => {

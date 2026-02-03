@@ -14,52 +14,10 @@ import {
   TrendingUp,
   Tag,
   ExternalLink,
+  Loader2,
 } from "lucide-react";
 import { cn } from "~/lib/utils";
-
-// Mock saved topics — replace with API when backend is ready
-const MOCK_SAVED_TOPICS = [
-  {
-    id: "1",
-    title: "The Rise of TypeScript in Modern Web Development",
-    miniDesc: "TypeScript has become the de facto choice for large-scale frontend applications.",
-    tags: ["TypeScript", "JavaScript", "Web"],
-    publishedAt: new Date("2025-02-02"),
-    type: "DAILY" as const,
-  },
-  {
-    id: "2",
-    title: "Understanding React Server Components",
-    miniDesc: "RSC shifts the balance of where rendering happens and how data flows.",
-    tags: ["React", "RSC", "Next.js"],
-    publishedAt: new Date("2025-01-28"),
-    type: "DAILY" as const,
-  },
-  {
-    id: "3",
-    title: "Database Indexing: B-Trees and Beyond",
-    miniDesc: "How databases use indexes to turn O(n) lookups into O(log n).",
-    tags: ["Databases", "SQL", "Performance"],
-    publishedAt: new Date("2025-01-20"),
-    type: "WEEKLY" as const,
-  },
-  {
-    id: "4",
-    title: "CSS Container Queries Are Here",
-    miniDesc: "Style components based on their container, not just the viewport.",
-    tags: ["CSS", "Layout", "Responsive"],
-    publishedAt: new Date("2025-01-15"),
-    type: "DAILY" as const,
-  },
-  {
-    id: "5",
-    title: "GraphQL vs REST: When to Use Which",
-    miniDesc: "A practical guide to choosing the right API style for your product.",
-    tags: ["API", "GraphQL", "REST"],
-    publishedAt: new Date("2025-01-10"),
-    type: "WEEKLY" as const,
-  },
-];
+import { api } from "~/trpc/react";
 
 type FilterType = "ALL" | "DAILY" | "WEEKLY";
 
@@ -67,16 +25,15 @@ export default function SavedTopicsPage() {
   const router = useRouter();
   const [filter, setFilter] = useState<FilterType>("ALL");
 
-  // In real app: const { data: savedTopics } = api.topic.getSaved.useQuery();
-  const savedTopics = MOCK_SAVED_TOPICS;
+  const { data: savedTopics = [], isLoading } = api.topic.getSaved.useQuery();
 
   const filteredTopics = useMemo(() => {
     if (filter === "ALL") return savedTopics;
     return savedTopics.filter((t) => t.type === filter);
   }, [savedTopics, filter]);
 
-  const formatDate = (d: Date) =>
-    d.toLocaleDateString("en-US", {
+  const formatDate = (d: Date | string) =>
+    new Date(d).toLocaleDateString("en-US", {
       weekday: "short",
       month: "short",
       day: "numeric",
@@ -139,6 +96,12 @@ export default function SavedTopicsPage() {
 
         {/* Main content — grid of topic cards */}
         <main className="flex-1 min-h-0 p-8 pb-24">
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center min-h-[40vh] gap-4">
+              <Loader2 className="w-12 h-12 text-[var(--champagne-gold)] animate-spin" />
+              <p className="text-muted-foreground font-medium">Loading saved topics…</p>
+            </div>
+          ) : (
           <AnimatePresence mode="wait">
             {filteredTopics.length === 0 ? (
               <motion.div
@@ -242,8 +205,8 @@ export default function SavedTopicsPage() {
                         variant="ghost"
                         size="sm"
                         onClick={() => {
-                          // When backend is ready: router.push(`/?date=${topic.publishedAt.toISOString().split("T")[0]}`);
-                          router.push("/");
+                          const dateStr = new Date(topic.publishedAt).toISOString().split("T")[0];
+                          router.push(`/?date=${dateStr}`);
                         }}
                         className="w-full mt-auto border border-white/10 hover:border-[var(--champagne-gold)]/50 hover:bg-white/5 text-muted-foreground hover:text-[var(--champagne-gold)] font-semibold rounded-xl gap-2 transition-all duration-200"
                       >
@@ -256,6 +219,7 @@ export default function SavedTopicsPage() {
               </motion.div>
             )}
           </AnimatePresence>
+          )}
         </main>
       </div>
     </div>
