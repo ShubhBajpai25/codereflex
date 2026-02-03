@@ -24,6 +24,7 @@ export async function generateDailyTopic() {
     "content": "A detailed explanation (800-1000 words). Clear, professional language.",
     "miniDesc": "A 1-sentence reflex takeaway. Max 100 characters.",
     "tags": ["3 relevant tags"],
+    "category": "The type of information, i.e. Programming Language, History, Breakthrough, etc.",
     "citations": ["List of 2-3 real-world source URLs or paper titles used for this topic"],
     "imageSlug": "a hyphenated-short-description-for-image-generation"
     }
@@ -46,6 +47,7 @@ export async function generateDailyTopic() {
     title: aiData.title,
     content: aiData.content,
     miniDesc: aiData.miniDesc,
+    category: aiData.category,
     tags: aiData.tags,
     image: freeImageUrl,
     citations: aiData.citations
@@ -73,6 +75,7 @@ export async function generateWeeklyTopic() {
     "content": "Detailed explanation (1000-1500 words).",
     "miniDesc": "1-sentence takeaway.",
     "tags": ["3 tags"],
+    "category": "The type of information, i.e. Programming Language, History, Breakthrough, etc.",
     "citations": ["List of 2-3 real-world source URLs or paper titles used for this topic"],
     "imageSlug": "hyphenated-architectural-visual-description"
     }
@@ -94,6 +97,7 @@ export async function generateWeeklyTopic() {
     content: aiData.content,
     miniDesc: aiData.miniDesc,
     tags: aiData.tags,
+    category: aiData.category,
     image: freeImageUrl,
     citations: aiData.citations
   };

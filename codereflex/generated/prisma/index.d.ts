@@ -3645,6 +3645,7 @@ export namespace Prisma {
     image: string | null
     title: string | null
     content: string | null
+    category: string | null
     type: $Enums.TopicType | null
     miniDesc: string | null
     publishedAt: Date | null
@@ -3655,6 +3656,7 @@ export namespace Prisma {
     image: string | null
     title: string | null
     content: string | null
+    category: string | null
     type: $Enums.TopicType | null
     miniDesc: string | null
     publishedAt: Date | null
@@ -3665,6 +3667,7 @@ export namespace Prisma {
     image: number
     title: number
     content: number
+    category: number
     type: number
     tags: number
     miniDesc: number
@@ -3679,6 +3682,7 @@ export namespace Prisma {
     image?: true
     title?: true
     content?: true
+    category?: true
     type?: true
     miniDesc?: true
     publishedAt?: true
@@ -3689,6 +3693,7 @@ export namespace Prisma {
     image?: true
     title?: true
     content?: true
+    category?: true
     type?: true
     miniDesc?: true
     publishedAt?: true
@@ -3699,6 +3704,7 @@ export namespace Prisma {
     image?: true
     title?: true
     content?: true
+    category?: true
     type?: true
     tags?: true
     miniDesc?: true
@@ -3784,6 +3790,7 @@ export namespace Prisma {
     image: string | null
     title: string
     content: string
+    category: string
     type: $Enums.TopicType
     tags: string[]
     miniDesc: string
@@ -3813,6 +3820,7 @@ export namespace Prisma {
     image?: boolean
     title?: boolean
     content?: boolean
+    category?: boolean
     type?: boolean
     tags?: boolean
     miniDesc?: boolean
@@ -3827,6 +3835,7 @@ export namespace Prisma {
     image?: boolean
     title?: boolean
     content?: boolean
+    category?: boolean
     type?: boolean
     tags?: boolean
     miniDesc?: boolean
@@ -3839,6 +3848,7 @@ export namespace Prisma {
     image?: boolean
     title?: boolean
     content?: boolean
+    category?: boolean
     type?: boolean
     tags?: boolean
     miniDesc?: boolean
@@ -3851,6 +3861,7 @@ export namespace Prisma {
     image?: boolean
     title?: boolean
     content?: boolean
+    category?: boolean
     type?: boolean
     tags?: boolean
     miniDesc?: boolean
@@ -3858,7 +3869,7 @@ export namespace Prisma {
     publishedAt?: boolean
   }
 
-  export type TopicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "title" | "content" | "type" | "tags" | "miniDesc" | "citations" | "publishedAt", ExtArgs["result"]["topic"]>
+  export type TopicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "title" | "content" | "category" | "type" | "tags" | "miniDesc" | "citations" | "publishedAt", ExtArgs["result"]["topic"]>
   export type TopicInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     savedBy?: boolean | Topic$savedByArgs<ExtArgs>
     _count?: boolean | TopicCountOutputTypeDefaultArgs<ExtArgs>
@@ -3876,6 +3887,7 @@ export namespace Prisma {
       image: string | null
       title: string
       content: string
+      category: string
       type: $Enums.TopicType
       tags: string[]
       miniDesc: string
@@ -4309,6 +4321,7 @@ export namespace Prisma {
     readonly image: FieldRef<"Topic", 'String'>
     readonly title: FieldRef<"Topic", 'String'>
     readonly content: FieldRef<"Topic", 'String'>
+    readonly category: FieldRef<"Topic", 'String'>
     readonly type: FieldRef<"Topic", 'TopicType'>
     readonly tags: FieldRef<"Topic", 'String[]'>
     readonly miniDesc: FieldRef<"Topic", 'String'>
@@ -6806,6 +6819,7 @@ export namespace Prisma {
     image: 'image',
     title: 'title',
     content: 'content',
+    category: 'category',
     type: 'type',
     tags: 'tags',
     miniDesc: 'miniDesc',
@@ -7099,6 +7113,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Topic"> | string | null
     title?: StringFilter<"Topic"> | string
     content?: StringFilter<"Topic"> | string
+    category?: StringFilter<"Topic"> | string
     type?: EnumTopicTypeFilter<"Topic"> | $Enums.TopicType
     tags?: StringNullableListFilter<"Topic">
     miniDesc?: StringFilter<"Topic"> | string
@@ -7112,6 +7127,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     title?: SortOrder
     content?: SortOrder
+    category?: SortOrder
     type?: SortOrder
     tags?: SortOrder
     miniDesc?: SortOrder
@@ -7128,6 +7144,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Topic"> | string | null
     title?: StringFilter<"Topic"> | string
     content?: StringFilter<"Topic"> | string
+    category?: StringFilter<"Topic"> | string
     type?: EnumTopicTypeFilter<"Topic"> | $Enums.TopicType
     tags?: StringNullableListFilter<"Topic">
     miniDesc?: StringFilter<"Topic"> | string
@@ -7141,6 +7158,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     title?: SortOrder
     content?: SortOrder
+    category?: SortOrder
     type?: SortOrder
     tags?: SortOrder
     miniDesc?: SortOrder
@@ -7159,6 +7177,7 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"Topic"> | string | null
     title?: StringWithAggregatesFilter<"Topic"> | string
     content?: StringWithAggregatesFilter<"Topic"> | string
+    category?: StringWithAggregatesFilter<"Topic"> | string
     type?: EnumTopicTypeWithAggregatesFilter<"Topic"> | $Enums.TopicType
     tags?: StringNullableListFilter<"Topic">
     miniDesc?: StringWithAggregatesFilter<"Topic"> | string
@@ -7436,6 +7455,7 @@ export namespace Prisma {
     image?: string | null
     title: string
     content: string
+    category: string
     type: $Enums.TopicType
     tags?: TopicCreatetagsInput | string[]
     miniDesc: string
@@ -7449,6 +7469,7 @@ export namespace Prisma {
     image?: string | null
     title: string
     content: string
+    category: string
     type: $Enums.TopicType
     tags?: TopicCreatetagsInput | string[]
     miniDesc: string
@@ -7462,6 +7483,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string
@@ -7475,6 +7497,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string
@@ -7488,6 +7511,7 @@ export namespace Prisma {
     image?: string | null
     title: string
     content: string
+    category: string
     type: $Enums.TopicType
     tags?: TopicCreatetagsInput | string[]
     miniDesc: string
@@ -7500,6 +7524,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string
@@ -7512,6 +7537,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string
@@ -7890,6 +7916,7 @@ export namespace Prisma {
     image?: SortOrder
     title?: SortOrder
     content?: SortOrder
+    category?: SortOrder
     type?: SortOrder
     tags?: SortOrder
     miniDesc?: SortOrder
@@ -7902,6 +7929,7 @@ export namespace Prisma {
     image?: SortOrder
     title?: SortOrder
     content?: SortOrder
+    category?: SortOrder
     type?: SortOrder
     miniDesc?: SortOrder
     publishedAt?: SortOrder
@@ -7912,6 +7940,7 @@ export namespace Prisma {
     image?: SortOrder
     title?: SortOrder
     content?: SortOrder
+    category?: SortOrder
     type?: SortOrder
     miniDesc?: SortOrder
     publishedAt?: SortOrder
@@ -8518,6 +8547,7 @@ export namespace Prisma {
     image?: string | null
     title: string
     content: string
+    category: string
     type: $Enums.TopicType
     tags?: TopicCreatetagsInput | string[]
     miniDesc: string
@@ -8530,6 +8560,7 @@ export namespace Prisma {
     image?: string | null
     title: string
     content: string
+    category: string
     type: $Enums.TopicType
     tags?: TopicCreatetagsInput | string[]
     miniDesc: string
@@ -8626,6 +8657,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Topic"> | string | null
     title?: StringFilter<"Topic"> | string
     content?: StringFilter<"Topic"> | string
+    category?: StringFilter<"Topic"> | string
     type?: EnumTopicTypeFilter<"Topic"> | $Enums.TopicType
     tags?: StringNullableListFilter<"Topic">
     miniDesc?: StringFilter<"Topic"> | string
@@ -8826,6 +8858,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string
@@ -8838,6 +8871,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string
@@ -8850,6 +8884,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     type?: EnumTopicTypeFieldUpdateOperationsInput | $Enums.TopicType
     tags?: TopicUpdatetagsInput | string[]
     miniDesc?: StringFieldUpdateOperationsInput | string

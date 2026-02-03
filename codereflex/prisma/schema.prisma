@@ -52,6 +52,7 @@ model Topic {
     image String?
     title String
     content String @db.Text
+    category String
     type TopicType
     tags String[]
     miniDesc String

@@ -28,6 +28,8 @@ interface DashboardProps {
 
 type TopicType = "DAILY" | "WEEKLY";
 
+
+
 // 1. THE WRAPPER (Handles Suspense for build/prerender safety)
 export function Dashboard({ user }: DashboardProps) {
   return (
@@ -42,6 +44,37 @@ function DashboardContent({ user }: DashboardProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [viewMode, setViewMode] = useState<TopicType>("DAILY");
+  const utils = api.useUtils();
+
+  const { mutate: seed, isPending: isSeeding } = api.topic.manualSeed.useMutation({
+  onSuccess: () => {
+    utils.topic.getLatest.invalidate(); // Refresh the feed immediately
+    alert("New Insight Generated Successfully!");
+  },
+  onError: (err) => alert(`Failed: ${err.message}`),
+});
+
+  // ... inside the return JSX, just before the final </div>:
+  <motion.div 
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    className="fixed bottom-8 right-8 z-50 flex flex-col gap-2"
+  >
+    <Button
+      onClick={() => seed({ type: viewMode })}
+      disabled={isSeeding}
+      className="gold-gradient text-black font-bold h-14 w-14 rounded-full shadow-[0_0_20px_rgba(212,175,55,0.3)] border border-[var(--champagne-gold)] hover:scale-110 transition-transform flex items-center justify-center p-0"
+    >
+      {isSeeding ? (
+        <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+      ) : (
+        <Sparkles className="w-6 h-6" />
+      )}
+    </Button>
+    <span className="text-[10px] text-[var(--champagne-gold)] font-bold text-center uppercase tracking-widest bg-black/40 backdrop-blur-md px-2 py-1 rounded">
+      Seed {viewMode}
+    </span>
+  </motion.div>
 
   const dateParam = searchParams.get("date");
 

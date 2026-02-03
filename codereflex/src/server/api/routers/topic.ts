@@ -84,6 +84,7 @@ export const topicRouter = createTRPCRouter({
                     content: aiData.content,
                     miniDesc: aiData.miniDesc,
                     tags: aiData.tags,
+                    category: aiData.category,
                     image: aiData.image,
                     citations: aiData.citations,
                     type: "DAILY"
@@ -99,10 +100,27 @@ export const topicRouter = createTRPCRouter({
                     content: aiData.content,
                     miniDesc: aiData.miniDesc,
                     tags: aiData.tags,
+                    category: aiData.category,
                     image: aiData.image,
                     citations: aiData.citations,
                     type: "WEEKLY"
                 },
             });
         }),
-});
+
+        manualSeed: protectedProcedure
+        .input(z.object({ type: z.enum(["DAILY", "WEEKLY"]) }))
+        .mutation(async ({ ctx, input }) => {
+        const data = input.type === "DAILY" 
+            ? await generateDailyTopic() 
+            : await generateWeeklyTopic();
+
+        return await ctx.db.topic.create({
+            data: {
+            ...data,
+            type: input.type,
+            publishedAt: new Date(),
+            },
+        });
+        }),
+    });

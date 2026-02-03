@@ -149,6 +149,7 @@ exports.Prisma.TopicScalarFieldEnum = {
   image: 'image',
   title: 'title',
   content: 'content',
+  category: 'category',
   type: 'type',
   tags: 'tags',
   miniDesc: 'miniDesc',
