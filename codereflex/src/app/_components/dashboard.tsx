@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "~/components/ui/button";
@@ -13,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { Code2, LogOut, History, ArrowUp, Sparkles, Camera, Star, TrendingUp } from "lucide-react";
+import { Code2, LogOut, History, ArrowUp, Sparkles, Star, TrendingUp, Bookmark, Pencil } from "lucide-react";
 import { FactCard } from "~/app/_components/fact_card";
 import { api } from "~/trpc/react";
 
@@ -178,6 +179,64 @@ function DashboardSkeleton({ user }: DashboardProps) {
   );
 }
 
+// Profile block in dropdown: avatar with hover pencil to change photo
+function ProfileHeaderWithPencil({
+  user,
+}: {
+  user: DashboardProps["user"];
+}) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleChangePhotoClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // TODO: upload to your backend / update profile image
+      e.target.value = "";
+    }
+  };
+
+  return (
+    <div className="p-4 flex items-center gap-4 border-b border-white/10">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="sr-only"
+        aria-hidden
+        onChange={handleFileChange}
+      />
+      <button
+        type="button"
+        onClick={handleChangePhotoClick}
+        className="relative group shrink-0 rounded-full ring-2 ring-transparent focus:ring-[var(--champagne-gold)]/50 focus:outline-none transition-shadow"
+        aria-label="Change profile picture"
+      >
+        <Avatar className="h-14 w-14 border-2 border-[var(--champagne-gold)]/40">
+          <AvatarImage src={user?.image || ""} />
+          <AvatarFallback className="gold-gradient text-accent-foreground font-bold">
+            {user?.name?.charAt(0) || "D"}
+          </AvatarFallback>
+        </Avatar>
+        <span className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
+          <Pencil className="h-5 w-5 text-white" />
+        </span>
+      </button>
+      <div className="flex-1 min-w-0">
+        <p className="font-bold text-foreground truncate text-lg">
+          {user?.name || "Developer"}
+        </p>
+        <p className="text-sm text-muted-foreground truncate">
+          {user?.email || "dev@example.com"}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 // Helper: Reusable Header — glass, champagne gold, strict flex (no overlap)
 function DashboardHeader({
   user,
@@ -232,16 +291,27 @@ function DashboardHeader({
         </button>
       </div>
 
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-end gap-2">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-9 w-9 rounded-xl border border-white/10 hover:border-[var(--champagne-gold)]/50 hover:bg-white/10 text-[var(--champagne-gold)] transition-all duration-300"
+          aria-label="Saved topics"
+          asChild
+        >
+          <Link href="/saved-topics">
+            <Bookmark className="h-5 w-5" />
+          </Link>
+        </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              className="relative h-11 w-11 rounded-xl hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-[var(--champagne-gold)]/50"
+              className="relative h-9 w-9 rounded-xl hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-[var(--champagne-gold)]/50 p-0"
             >
-              <Avatar className="h-11 w-11 border-2 border-[var(--champagne-gold)]/40">
+              <Avatar className="h-9 w-9 border-2 border-[var(--champagne-gold)]/40">
                 <AvatarImage src={user?.image || ""} />
-                <AvatarFallback className="gold-gradient text-accent-foreground font-bold text-lg">
+                <AvatarFallback className="gold-gradient text-accent-foreground font-bold text-sm">
                   {user?.name?.charAt(0) || "D"}
                 </AvatarFallback>
               </Avatar>
@@ -251,30 +321,7 @@ function DashboardHeader({
             align="end"
             className="w-72 bg-black/20 backdrop-blur-xl border-white/10 shadow-2xl z-[100] mt-2"
           >
-            <div className="p-4 flex items-center gap-4 border-b border-white/10">
-              <Avatar className="h-14 w-14 border-2 border-[var(--champagne-gold)]/40">
-                <AvatarImage src={user?.image || ""} />
-                <AvatarFallback className="gold-gradient text-accent-foreground font-bold">
-                  {user?.name?.charAt(0) || "D"}
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex-1 min-w-0">
-                <p className="font-bold text-foreground truncate text-lg">
-                  {user?.name || "Developer"}
-                </p>
-                <p className="text-sm text-muted-foreground truncate">
-                  {user?.email || "dev@example.com"}
-                </p>
-              </div>
-            </div>
-            <div className="p-2">
-              <DropdownMenuItem
-                className="text-muted-foreground hover:text-[var(--champagne-gold)] hover:bg-white/5 cursor-pointer rounded-lg py-3 px-4 transition-all duration-200"
-              >
-                <Camera className="w-5 h-5 mr-3 text-[var(--champagne-gold)]" />
-                <span className="font-medium">Change profile picture</span>
-              </DropdownMenuItem>
-            </div>
+            <ProfileHeaderWithPencil user={user} />
             <DropdownMenuSeparator className="bg-white/10" />
             <div className="p-2">
               <DropdownMenuItem
