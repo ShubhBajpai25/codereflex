@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import {
   Calendar,
   Lightbulb,
@@ -173,9 +175,12 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
                 </p>
               ),
               // 3. Code Detection and Containerization
-              code({ node, inline, className, children, ...props }) {
+              code({ node, className, children, ...props }) {
+                // Check for the presence of a language class (e.g., "language-js")
                 const match = /language-(\w+)/.exec(className || "");
-                return !inline && match ? (
+                const isInline = !match;
+
+                return !isInline ? (
                   <div className="relative group my-8">
                     {/* Language Label */}
                     <div className="absolute right-4 top-0 -translate-y-1/2 bg-[var(--champagne-gold)] text-black text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest z-10 shadow-lg">
@@ -186,13 +191,17 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
                       language={match[1]}
                       PreTag="div"
                       className="rounded-xl border border-white/10 !bg-black/40 !p-6 shadow-2xl"
-                      {...props}
+                      // TypeScript-safe spread of props
+                      {...(props as any)}
                     >
                       {String(children).replace(/\n$/, "")}
                     </SyntaxHighlighter>
                   </div>
                 ) : (
-                  <code className="bg-white/10 px-1.5 py-0.5 rounded font-mono text-sm text-[var(--champagne-gold)]" {...props}>
+                  <code 
+                    className="bg-white/10 px-1.5 py-0.5 rounded font-mono text-sm text-[var(--champagne-gold)]" 
+                    {...props}
+                  >
                     {children}
                   </code>
                 );
