@@ -14,6 +14,8 @@ export async function generateDailyTopic() {
     Generate a daily insight for a software engineering audience. Topic must be covered in moderate depth.
     Citations must be at the very bottom.
 
+    Use strict Markdown. Use '###' for all sub-headers (like Phase steps). Use double-asterisks '**' only for key technical terms. Ensure there is exactly one empty line between every paragraph. Do not use generic lists; use structured paragraphs for depth.
+
     ### TOPIC THEMES
     Focus on: Distributed Systems, K8s, Language Internals, LeetCode (Easy/Med/Hard), Cybersecurity, or Job Market.
 
@@ -55,7 +57,7 @@ export async function generateDailyTopic() {
 }
 
 export async function generateWeeklyTopic() {
-  const model = genAI.getGenerativeModel({ model: "gemini-3-pro-preview" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
   const prompt = `
     ### ROLE
@@ -64,6 +66,8 @@ export async function generateWeeklyTopic() {
     ### TASK
     Generate a weekly insight (High Depth). Around 1000-1500 words.
     Citations at the bottom.
+
+    Use strict Markdown. Use '###' for all sub-headers (like Phase steps). Use double-asterisks '**' only for key technical terms. Ensure there is exactly one empty line between every paragraph. Do not use generic lists; use structured paragraphs for depth.
 
     ### TOPIC THEMES
     Focus on: Distributed Systems, K8s, Language Internals, LeetCode (Med/Hard), Cybersecurity, or Job Market.
