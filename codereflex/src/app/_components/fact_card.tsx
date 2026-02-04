@@ -75,6 +75,20 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
           aria-hidden
         />
 
+        {/* 1. TOP IMAGE SECTION */}
+        {fact.image && (
+          <div className="relative w-full h-64 md:h-80 mb-10 overflow-hidden rounded-2xl border border-white/10 bg-black/20 animate-fade-in">
+            <img 
+              src={fact.image} 
+              alt={fact.title} 
+              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+              loading="lazy"
+            />
+            {/* Subtle overlay gradient to ensure text readability if any is added later */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+          </div>
+        )}
+
         {/* Header Metadata */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 pb-8 border-b border-white/10">
           <div className="flex items-center gap-4 animate-fade-in">
@@ -152,14 +166,11 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
         <div className="prose prose-invert max-w-none mb-10 animate-fade-in stagger-3">
           <ReactMarkdown
             components={{
-
               strong: ({ children }) => (
                 <strong className="font-bold text-[var(--champagne-gold)]">
                   {children}
                 </strong>
               ),
-              
-              // 1. Smaller headers sharing the Title's font style
               h1: ({ children }) => (
                 <h1 className="text-2xl md:text-3xl font-black mt-10 mb-4 bg-gradient-to-r from-foreground via-[var(--champagne-gold)] to-foreground bg-clip-text text-transparent">
                   {children}
@@ -172,27 +183,23 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
               ),
               h3: ({ children }) => (
                 <h3 className="text-lg md:text-xl font-black mt-8 mb-4 flex items-center gap-2">
-                  <div className="w-1 h-6 bg-[var(--champagne-gold)] rounded-full" /> {/* Gold accent bar */}
+                  <div className="w-1 h-6 bg-[var(--champagne-gold)] rounded-full" />
                   <span className="bg-gradient-to-r from-foreground via-[var(--champagne-gold)] to-foreground bg-clip-text text-transparent">
                     {children}
                   </span>
                 </h3>
               ),
-              // 2. Spaced out paragraphs
               p: ({ children }) => (
                 <p className="text-muted-foreground text-lg md:text-xl leading-relaxed mb-8 last:mb-0">
                   {children}
                 </p>
               ),
-              // 3. Code Detection and Containerization
               code({ node, className, children, ...props }) {
-                // Check for the presence of a language class (e.g., "language-js")
                 const match = /language-(\w+)/.exec(className || "");
                 const isInline = !match;
 
                 return !isInline ? (
                   <div className="relative group my-8">
-                    {/* Language Label */}
                     <div className="absolute right-4 top-0 -translate-y-1/2 bg-[var(--champagne-gold)] text-black text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest z-10 shadow-lg">
                       {match[1]}
                     </div>
@@ -215,7 +222,6 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
                   </code>
                 );
               },
-              // Styled lists
               ul: ({ children }) => <ul className="list-disc pl-6 mb-8 space-y-3 text-muted-foreground">{children}</ul>,
               li: ({ children }) => <li className="text-lg md:text-xl">{children}</li>,
             }}
@@ -224,7 +230,7 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
           </ReactMarkdown>
         </div>
 
-        {/* Highlight Section — glass + gold border */}
+        {/* Highlight Section */}
         <div className="relative mb-10 animate-fade-in stagger-4">
           <div className="p-6 rounded-2xl bg-black/20 border border-white/10 backdrop-blur-md">
             <div className="flex items-start gap-4">
@@ -239,7 +245,7 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
           </div>
         </div>
 
-        {/* Tags — active border champagne gold on hover */}
+        {/* Tags */}
         <div className="flex flex-wrap gap-3 animate-fade-in stagger-5">
           {fact.tags.map((tag, index) => (
             <span
@@ -253,7 +259,7 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
           ))}
         </div>
 
-        {/* Citations if available */}
+        {/* Citations */}
         {fact.citations && fact.citations.length > 0 && (
           <div className="mt-12 pt-8 border-t border-white/10 animate-fade-in stagger-6">
             <div className="flex items-center gap-2 mb-4">

@@ -38,22 +38,33 @@ export async function generateDailyTopic() {
     - NO hallucinated sources, must be real and authentic.
     `;
 
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
+  try {
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    let text = response.text();
 
-  const aiData = JSON.parse(response.text().replace(/```json|```/g, ""));
+    // Cleaning the response string more robustly
+    text = text.replace(/```json/g, "").replace(/```/g, "").trim();
+    const aiData = JSON.parse(text);
 
-  const freeImageUrl = `https://image.pollinations.ai/prompt/${aiData.imageSlug}?width=1024&height=1024&nologo=true`;
+    // FIXED IMAGE GENERATION: Direct link, bypassing local proxies
+    // We add more descriptive keywords to the slug to ensure a high-quality "Blueprint" look
+    const enhancedPrompt = encodeURIComponent(`${aiData.imageSlug} architectural diagram professional tech gold on obsidian`);
+    const finalImageUrl = `https://pollinations.ai/p/${enhancedPrompt}?width=1200&height=600&nologo=true&seed=${Math.floor(Math.random() * 1000)}`;
 
-  return {
-    title: aiData.title,
-    content: aiData.content,
-    miniDesc: aiData.miniDesc,
-    category: aiData.category,
-    tags: aiData.tags,
-    image: freeImageUrl,
-    citations: aiData.citations
-  };
+    return {
+      title: aiData.title,
+      content: aiData.content,
+      miniDesc: aiData.miniDesc,
+      category: aiData.category,
+      tags: aiData.tags,
+      image: finalImageUrl, // This replaces the "Bad Gateway" link
+      citations: aiData.citations
+    };
+  } catch (error) {
+    console.error("Gemini Generation Error:", error);
+    throw new Error("Failed to generate consistent daily topic.");
+  }
 }
 
 export async function generateWeeklyTopic() {

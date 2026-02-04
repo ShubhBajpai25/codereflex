@@ -78,6 +78,7 @@ export const topicRouter = createTRPCRouter({
         
         seedDaily: protectedProcedure.mutation(async ({ctx}) => {
             const aiData = await generateDailyTopic();
+            const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(aiData.title + " technical blueprint dark gold theme")}?width=1200&height=600&nologo=true`;
             return await ctx.db.topic.create({
                 data: {
                     title: aiData.title,
@@ -85,7 +86,7 @@ export const topicRouter = createTRPCRouter({
                     miniDesc: aiData.miniDesc,
                     tags: aiData.tags,
                     category: aiData.category,
-                    image: aiData.image,
+                    image: imageUrl,
                     citations: aiData.citations,
                     type: "DAILY"
                 },
