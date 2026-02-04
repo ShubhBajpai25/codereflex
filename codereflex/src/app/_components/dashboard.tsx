@@ -118,7 +118,7 @@ function DashboardContent({ user }: DashboardProps) {
 
         <main className="flex-1 flex flex-col items-center justify-center min-h-0 p-8 pb-24 gap-6">
           <AnimatePresence mode="wait">
-            {isLoading ? (
+            {isPending ? (
               <motion.div
                 key="skeleton"
                 initial={{ opacity: 0 }}
