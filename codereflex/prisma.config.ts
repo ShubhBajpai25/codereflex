@@ -6,7 +6,6 @@ export default defineConfig({
   schema: "prisma/schema.prisma",
   datasource: {
     // For Neon, use your POOLED url here for general CLI use
-    url: env("DATABASE_URL"), 
-    directUrl: env("DIRECT_URL",)
+    url: env("DATABASE_URL"),
   },
 });
