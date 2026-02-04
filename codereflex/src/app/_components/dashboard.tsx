@@ -64,7 +64,7 @@ function DashboardContent({ user }: DashboardProps) {
       {/* Gold radial gradients in corners (via ::before in .bg-obsidian-gold) */}
 
       {/* 2. BUTTON MOVED HERE (Inside the return, absolutely positioned) */}
-      {user.email === "shubhbajpai@example.com" && ( // Replace with your actual email
+      {user.email === "shubhbajpai25@gmail.com" && ( // Replace with your actual email
         <motion.div 
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
