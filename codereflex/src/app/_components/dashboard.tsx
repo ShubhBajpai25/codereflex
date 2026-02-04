@@ -47,49 +47,45 @@ function DashboardContent({ user }: DashboardProps) {
   const utils = api.useUtils();
 
   const { mutate: seed, isPending: isSeeding } = api.topic.manualSeed.useMutation({
-  onSuccess: () => {
-    utils.topic.getLatest.invalidate(); // Refresh the feed immediately
-    alert("New Insight Generated Successfully!");
-  },
-  onError: (err) => alert(`Failed: ${err.message}`),
-});
-
-  // ... inside the return JSX, just before the final </div>:
-  <motion.div 
-    initial={{ opacity: 0, scale: 0.8 }}
-    animate={{ opacity: 1, scale: 1 }}
-    className="fixed bottom-8 right-8 z-50 flex flex-col gap-2"
-  >
-    <Button
-      onClick={() => seed({ type: viewMode })}
-      disabled={isSeeding}
-      className="gold-gradient text-black font-bold h-14 w-14 rounded-full shadow-[0_0_20px_rgba(212,175,55,0.3)] border border-[var(--champagne-gold)] hover:scale-110 transition-transform flex items-center justify-center p-0"
-    >
-      {isSeeding ? (
-        <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-      ) : (
-        <Sparkles className="w-6 h-6" />
-      )}
-    </Button>
-    <span className="text-[10px] text-[var(--champagne-gold)] font-bold text-center uppercase tracking-widest bg-black/40 backdrop-blur-md px-2 py-1 rounded">
-      Seed {viewMode}
-    </span>
-  </motion.div>
+    onSuccess: () => {
+      utils.topic.getLatest.invalidate(); // Refresh the feed immediately
+      alert("New Insight Generated Successfully!");
+    },
+    onError: (err) => alert(`Failed: ${err.message}`),
+  });
 
   const dateParam = searchParams.get("date");
-
-  const { data: topic, isLoading } = dateParam
-    ? api.topic.getByDate.useQuery({ 
-        date: new Date(dateParam), 
-        type: viewMode 
-      })
-    : api.topic.getLatest.useQuery({ 
-        type: viewMode 
-      });
+  const { data: topic, isPending } = dateParam
+    ? api.topic.getByDate.useQuery({ date: new Date(dateParam), type: viewMode })
+    : api.topic.getLatest.useQuery({ type: viewMode });
 
   return (
     <div className="min-h-screen bg-obsidian-gold flex flex-col relative overflow-hidden animate-fade-in">
       {/* Gold radial gradients in corners (via ::before in .bg-obsidian-gold) */}
+
+      {/* 2. BUTTON MOVED HERE (Inside the return, absolutely positioned) */}
+      {user.email === "shubhbajpai@example.com" && ( // Replace with your actual email
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="fixed bottom-8 right-8 z-50 flex flex-col items-center gap-2"
+        >
+          <Button
+            onClick={() => seed({ type: viewMode })}
+            disabled={isSeeding}
+            className="gold-gradient text-black font-bold h-14 w-14 rounded-full shadow-[0_0_20px_rgba(212,175,55,0.3)] border border-[var(--champagne-gold)] hover:scale-110 transition-transform flex items-center justify-center p-0"
+          >
+            {isSeeding ? (
+              <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <Sparkles className="w-6 h-6" />
+            )}
+          </Button>
+          <span className="text-[10px] text-[var(--champagne-gold)] font-bold text-center uppercase tracking-widest bg-black/60 backdrop-blur-md px-2 py-1 rounded border border-white/10">
+            Seed {viewMode}
+          </span>
+        </motion.div>
+      )}
 
       {/* Strict flex layout: no overlap */}
       <div className="flex flex-col flex-1 min-h-0 gap-6">
