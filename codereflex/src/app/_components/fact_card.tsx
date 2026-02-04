@@ -152,6 +152,13 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
         <div className="prose prose-invert max-w-none mb-10 animate-fade-in stagger-3">
           <ReactMarkdown
             components={{
+
+              strong: ({ children }) => (
+                <strong className="font-bold text-[var(--champagne-gold)]">
+                  {children}
+                </strong>
+              ),
+              
               // 1. Smaller headers sharing the Title's font style
               h1: ({ children }) => (
                 <h1 className="text-2xl md:text-3xl font-black mt-10 mb-4 bg-gradient-to-r from-foreground via-[var(--champagne-gold)] to-foreground bg-clip-text text-transparent">
@@ -164,8 +171,11 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
                 </h2>
               ),
               h3: ({ children }) => (
-                <h3 className="text-lg md:text-xl font-black mt-6 mb-3 text-[var(--champagne-gold)]">
-                  {children}
+                <h3 className="text-lg md:text-xl font-black mt-8 mb-4 flex items-center gap-2">
+                  <div className="w-1 h-6 bg-[var(--champagne-gold)] rounded-full" /> {/* Gold accent bar */}
+                  <span className="bg-gradient-to-r from-foreground via-[var(--champagne-gold)] to-foreground bg-clip-text text-transparent">
+                    {children}
+                  </span>
                 </h3>
               ),
               // 2. Spaced out paragraphs
@@ -191,7 +201,6 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
                       language={match[1]}
                       PreTag="div"
                       className="rounded-xl border border-white/10 !bg-black/40 !p-6 shadow-2xl"
-                      // TypeScript-safe spread of props
                       {...(props as any)}
                     >
                       {String(children).replace(/\n$/, "")}
