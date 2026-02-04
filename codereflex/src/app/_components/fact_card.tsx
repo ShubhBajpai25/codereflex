@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
+import ReactMarkdown from 'react-markdown';
 import {
   Calendar,
   Lightbulb,
@@ -148,7 +149,9 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
         {/* Content */}
         <div className="prose prose-invert max-w-none mb-10 animate-fade-in stagger-3">
           <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
-            {fact.content}
+            <ReactMarkdown>
+              {fact.content}
+            </ReactMarkdown>
           </p>
         </div>
 

@@ -26,17 +26,17 @@ export const topicRouter = createTRPCRouter({
         getByDate: publicProcedure
             .input(z.object({date: z.date(), type: z.nativeEnum(TopicType)}))
             .query(async ({ctx, input}) => {
-                const start = new Date(input.date);
-                start.setHours(0,0,0,0);
-                const end = new Date(input.date)
-                end.setHours(0,0,0,0)
+                const startOfDay = new Date(input.date);
+                startOfDay.setUTCHours(0,0,0,0);
+                const endOfDay = new Date(input.date)
+                endOfDay.setUTCHours(23, 59, 59, 999)
 
                 return await ctx.db.topic.findFirst({
                     where: {
                         type: input.type,
                         publishedAt: {
-                            gte: start,
-                            lte: end,
+                            gte: startOfDay,
+                            lte: endOfDay,
                         },
                     },
                 });
