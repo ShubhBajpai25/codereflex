@@ -81,7 +81,7 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
             <img 
               src={fact.image} 
               alt={fact.title} 
-              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+              className="w-full h-full object-cover transition-transform"
               loading="lazy"
             />
             {/* Subtle overlay gradient to ensure text readability if any is added later */}
