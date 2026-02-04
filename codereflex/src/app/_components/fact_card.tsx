@@ -146,13 +146,64 @@ export function FactCard({ fact, viewMode }: FactCardProps) {
           </span>
         </h1>
 
-        {/* Content */}
+        {/* Updated Content Section */}
         <div className="prose prose-invert max-w-none mb-10 animate-fade-in stagger-3">
-          <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
-            <ReactMarkdown>
-              {fact.content}
-            </ReactMarkdown>
-          </p>
+          <ReactMarkdown
+            components={{
+              // 1. Smaller headers sharing the Title's font style
+              h1: ({ children }) => (
+                <h1 className="text-2xl md:text-3xl font-black mt-10 mb-4 bg-gradient-to-r from-foreground via-[var(--champagne-gold)] to-foreground bg-clip-text text-transparent">
+                  {children}
+                </h1>
+              ),
+              h2: ({ children }) => (
+                <h2 className="text-xl md:text-2xl font-black mt-8 mb-4 bg-gradient-to-r from-foreground via-[var(--champagne-gold)] to-foreground bg-clip-text text-transparent">
+                  {children}
+                </h2>
+              ),
+              h3: ({ children }) => (
+                <h3 className="text-lg md:text-xl font-black mt-6 mb-3 text-[var(--champagne-gold)]">
+                  {children}
+                </h3>
+              ),
+              // 2. Spaced out paragraphs
+              p: ({ children }) => (
+                <p className="text-muted-foreground text-lg md:text-xl leading-relaxed mb-8 last:mb-0">
+                  {children}
+                </p>
+              ),
+              // 3. Code Detection and Containerization
+              code({ node, inline, className, children, ...props }) {
+                const match = /language-(\w+)/.exec(className || "");
+                return !inline && match ? (
+                  <div className="relative group my-8">
+                    {/* Language Label */}
+                    <div className="absolute right-4 top-0 -translate-y-1/2 bg-[var(--champagne-gold)] text-black text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest z-10 shadow-lg">
+                      {match[1]}
+                    </div>
+                    <SyntaxHighlighter
+                      style={vscDarkPlus}
+                      language={match[1]}
+                      PreTag="div"
+                      className="rounded-xl border border-white/10 !bg-black/40 !p-6 shadow-2xl"
+                      {...props}
+                    >
+                      {String(children).replace(/\n$/, "")}
+                    </SyntaxHighlighter>
+                  </div>
+                ) : (
+                  <code className="bg-white/10 px-1.5 py-0.5 rounded font-mono text-sm text-[var(--champagne-gold)]" {...props}>
+                    {children}
+                  </code>
+                );
+              },
+              // Styled lists
+              ul: ({ children }) => <ul className="list-disc pl-6 mb-8 space-y-3 text-muted-foreground">{children}</ul>,
+              li: ({ children }) => <li className="text-lg md:text-xl">{children}</li>,
+            }}
+          >
+            {fact.content}
+          </ReactMarkdown>
         </div>
 
         {/* Highlight Section — glass + gold border */}

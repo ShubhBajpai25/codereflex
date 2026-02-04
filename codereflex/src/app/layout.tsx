@@ -14,8 +14,8 @@ import { Toaster } from "sonner";
 import { ThemeToggle } from "./_components/theme-toggle";
 
 export const metadata: Metadata = {
-  title: "CodeReflex | Never Stop Learning",
-  description: "Stay ahead of the curve with daily fun facts and discoveries from the coding world. Learn something new every day.",
+  title: "CodeReflex",
+  description: "SLearn something new every day.",
   generator: 'CodeReflex',
   keywords: ['coding', 'programming', 'daily facts', 'tech news', 'developer'],
   icons: [{ rel: "icon", url: "/favicon.ico" }],
