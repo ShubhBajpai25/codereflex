@@ -4,7 +4,7 @@ import { env } from "~/env";
 const genAI = new GoogleGenerativeAI(env.GOOGLE_GENERATIVE_API_KEY);
 
 export async function generateDailyTopic() {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
   const prompt = `
     ### ROLE
