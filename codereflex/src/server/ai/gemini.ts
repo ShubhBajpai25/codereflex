@@ -43,14 +43,14 @@ export async function generateDailyTopic() {
     const response = await result.response;
     let text = response.text();
 
-    // Cleaning the response string more robustly
     text = text.replace(/```json/g, "").replace(/```/g, "").trim();
     const aiData = JSON.parse(text);
 
-    // FIXED IMAGE GENERATION: Direct link, bypassing local proxies
-    // We add more descriptive keywords to the slug to ensure a high-quality "Blueprint" look
-    const enhancedPrompt = encodeURIComponent(`${aiData.imageSlug} architectural diagram professional tech gold on obsidian`);
-    const finalImageUrl = `https://pollinations.ai/p/${enhancedPrompt}?width=1200&height=600&nologo=true&seed=${Math.floor(Math.random() * 1000)}`;
+    // FIX: Match the variable name (enhancedPrompt) in the URL string
+    const enhancedPrompt = encodeURIComponent(`${aiData.imageSlug} architectural blueprint tech gold obsidian`);
+    
+    // Ensure we use the 'image' subdomain for a direct file stream
+    const finalImageUrl = `https://image.pollinations.ai/prompt/${enhancedPrompt}?width=1280&height=720&nologo=true&seed=${Math.floor(Math.random() * 10000)}`;
 
     return {
       title: aiData.title,
@@ -58,7 +58,7 @@ export async function generateDailyTopic() {
       miniDesc: aiData.miniDesc,
       category: aiData.category,
       tags: aiData.tags,
-      image: finalImageUrl, // This replaces the "Bad Gateway" link
+      image: finalImageUrl, 
       citations: aiData.citations
     };
   } catch (error) {

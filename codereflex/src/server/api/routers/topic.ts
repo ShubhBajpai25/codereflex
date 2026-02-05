@@ -112,16 +112,17 @@ export const topicRouter = createTRPCRouter({
         manualSeed: protectedProcedure
         .input(z.object({ type: z.enum(["DAILY", "WEEKLY"]) }))
         .mutation(async ({ ctx, input }) => {
-        const data = input.type === "DAILY" 
-            ? await generateDailyTopic() 
-            : await generateWeeklyTopic();
+            // Determine which function to call based on the button clicked
+            const data = input.type === "DAILY" 
+                ? await generateDailyTopic() 
+                : await generateWeeklyTopic();
 
-        return await ctx.db.topic.create({
-            data: {
-            ...data,
-            type: input.type,
-            publishedAt: new Date(),
-            },
-        });
+            return await ctx.db.topic.create({
+                data: {
+                ...data,
+                type: input.type,
+                publishedAt: new Date(),
+                },
+            });
         }),
     });
