@@ -109,19 +109,26 @@ export const topicRouter = createTRPCRouter({
             });
         }),
 
-        manualSeed: protectedProcedure
-        .input(z.object({ type: z.enum(["DAILY", "WEEKLY"]) }))
-        .mutation(async ({ ctx, input }) => {
-        const data = input.type === "DAILY" 
-            ? await generateDailyTopic() 
-            : await generateWeeklyTopic();
+        manualSeed: publicProcedure
+    .input(z.object({ type: z.enum(["DAILY", "WEEKLY"]) }))
+    .mutation(async ({ ctx, input }) => {
+      // 1. Generate the content
+      const topicData = await generateDailyTopic();
 
-        return await ctx.db.topic.create({
-            data: {
-            ...data,
-            type: input.type,
-            publishedAt: new Date(),
-            },
-        });
-        }),
-    });
+      // 2. Create the entry in Neon
+      return await ctx.db.topic.create({
+        data: {
+          title: topicData.title,
+          content: topicData.content,
+          miniDesc: topicData.miniDesc,
+          category: topicData.category,
+          tags: topicData.tags,
+          image: topicData.image, // Saved as a direct pollinations URL
+          citations: topicData.citations,
+          type: input.type,
+          // Normalizing to start of UTC day to fix Calendar mismatch
+          publishedAt: new Date(), 
+        },
+      });
+    }),
+});

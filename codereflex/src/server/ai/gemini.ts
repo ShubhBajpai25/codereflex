@@ -43,26 +43,17 @@ export async function generateDailyTopic() {
     const response = await result.response;
     let text = response.text();
 
-    // Cleaning the response string more robustly
+    // Cleaning common AI markdown artifacts
     text = text.replace(/```json/g, "").replace(/```/g, "").trim();
     const aiData = JSON.parse(text);
 
-    // FIXED IMAGE GENERATION: Direct link, bypassing local proxies
-    // We add more descriptive keywords to the slug to ensure a high-quality "Blueprint" look
-    const enhancedPrompt = encodeURIComponent(`${aiData.imageSlug} architectural diagram professional tech gold on obsidian`);
-    const finalImageUrl = `https://pollinations.ai/p/${enhancedPrompt}?width=1200&height=600&nologo=true&seed=${Math.floor(Math.random() * 1000)}`;
+    // Direct image generation URL for 2026 (Fixes 502 Bad Gateway)
+    const encodedPrompt = encodeURIComponent(`${aiData.imageSlug} ${aiData.title} blueprint architectural style gold on obsidian`);
+    const finalImageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1280&height=720&nologo=true&seed=${Math.floor(Math.random() * 10000)}`;
 
-    return {
-      title: aiData.title,
-      content: aiData.content,
-      miniDesc: aiData.miniDesc,
-      category: aiData.category,
-      tags: aiData.tags,
-      image: finalImageUrl, // This replaces the "Bad Gateway" link
-      citations: aiData.citations
-    };
+    return { ...aiData, image: finalImageUrl };
   } catch (error) {
-    console.error("Gemini Generation Error:", error);
+    console.error("LLM Generation Error:", error);
     throw new Error("Failed to generate consistent daily topic.");
   }
 }
