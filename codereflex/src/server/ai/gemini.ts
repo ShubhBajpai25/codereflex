@@ -47,12 +47,9 @@ export async function generateDailyTopic() {
     const result = await model.generateContent(prompt);
     const text = result.response.text().replace(/```json/g, "").replace(/```/g, "").trim();
     const aiData = JSON.parse(text);
-
-    // FIX: Match the variable name (enhancedPrompt) in the URL string
-    const enhancedPrompt = encodeURIComponent(`${aiData.imageSlug} architectural blueprint tech gold obsidian`);
     
     // Ensure we use the 'image' subdomain for a direct file stream
-    const finalImageUrl = `https://image.pollinations.ai/prompt/${enhancedPrompt}?width=1280&height=720&nologo=true&seed=${Math.floor(Math.random() * 10000)}`;
+    const finalImageUrl = `/api/og?title=${encodeURIComponent(aiData.title)}&category=${encodeURIComponent(aiData.category)}`;
 
     return {
       title: aiData.title,
