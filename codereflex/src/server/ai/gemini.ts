@@ -3,8 +3,13 @@ import { env } from "~/env";
 
 const genAI = new GoogleGenerativeAI(env.GOOGLE_GENERATIVE_API_KEY);
 
+const modelConfig = {
+  model: "gemini-2.5-flash",
+  generationConfig: { responseMimeType: "application/json" }
+  };
+
 export async function generateDailyTopic() {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+  const model = genAI.getGenerativeModel(modelConfig);
 
   const prompt = `
     ### ROLE
@@ -40,10 +45,7 @@ export async function generateDailyTopic() {
 
   try {
     const result = await model.generateContent(prompt);
-    const response = await result.response;
-    let text = response.text();
-
-    text = text.replace(/```json/g, "").replace(/```/g, "").trim();
+    const text = result.response.text().replace(/```json/g, "").replace(/```/g, "").trim();
     const aiData = JSON.parse(text);
 
     // FIX: Match the variable name (enhancedPrompt) in the URL string
