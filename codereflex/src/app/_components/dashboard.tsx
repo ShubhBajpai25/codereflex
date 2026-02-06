@@ -56,7 +56,7 @@ function DashboardContent({ user }: DashboardProps) {
 
   const dateParam = searchParams.get("date");
   const { data: topic, isPending } = dateParam
-    ? api.topic.getByDate.useQuery({ date: new Date(dateParam), type: viewMode })
+    ? api.topic.getByDate.useQuery({ date: dateParam, type: viewMode })
     : api.topic.getLatest.useQuery({ type: viewMode });
 
   return (
