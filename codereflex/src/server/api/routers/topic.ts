@@ -24,21 +24,26 @@ export const topicRouter = createTRPCRouter({
         }),
 
         getByDate: publicProcedure
-            .input(z.object({date: z.date(), type: z.nativeEnum(TopicType)}))
-            .query(async ({ctx, input}) => {
-                const startOfDay = new Date(input.date);
-                startOfDay.setUTCHours(0,0,0,0);
-                const endOfDay = new Date(input.date)
-                endOfDay.setUTCHours(23, 59, 59, 999)
+            .input(z.object({ 
+                date: z.string(), // CHANGED: Accept "YYYY-MM-DD" string
+                type: z.nativeEnum(TopicType) 
+            }))
+            .query(async ({ ctx, input }) => {
+                // Manually construct the UTC range from the string
+                // This creates "2026-02-06T00:00:00.000Z"
+                const startOfDay = new Date(`${input.date}T00:00:00.000Z`);
+                
+                // This creates "2026-02-06T23:59:59.999Z"
+                const endOfDay = new Date(`${input.date}T23:59:59.999Z`);
 
                 return await ctx.db.topic.findFirst({
-                    where: {
-                        type: input.type,
-                        publishedAt: {
-                            gte: startOfDay,
-                            lte: endOfDay,
-                        },
+                where: {
+                    type: input.type,
+                    publishedAt: {
+                    gte: startOfDay,
+                    lte: endOfDay,
                     },
+                },
                 });
             }),
 

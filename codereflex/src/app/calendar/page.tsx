@@ -6,6 +6,7 @@ import { Button } from "~/components/ui/button"
 import { Code2, ArrowUp, ChevronLeft, ChevronRight, Calendar, Loader2, Star, Sparkles } from "lucide-react"
 import { cn } from "~/lib/utils"
 import { api } from "~/trpc/react"
+import { format } from "date-fns";
 
 const MONTHS = [
   "January", "February", "March", "April", "May", "June",
@@ -267,7 +268,8 @@ export default function CalendarPage() {
                     disabled={!isAvailable}
                     onClick={() => {
                       if (isAvailable) {
-                        const dateSlug = date.toISOString().split('T')[0];
+                        const dateSlug = format(date, "yyyy-MM-dd"); 
+    
                         router.push(`/?date=${dateSlug}`);
                       }
                     }}
