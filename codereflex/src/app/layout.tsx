@@ -40,7 +40,6 @@ export default function RootLayout({
         >
           <TRPCReactProvider>
           {children}
-          <ThemeToggle />
           <Toaster
             theme="dark"
             position="bottom-right"
