@@ -19,6 +19,7 @@ type TopicType = "DAILY" | "WEEKLY";
 export default function CalendarPage() {
   const router = useRouter()
   const today = new Date()
+  const START_YEAR = 2026;
   
   const [selectedYear, setSelectedYear] = useState(today.getFullYear())
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth())
@@ -74,6 +75,7 @@ export default function CalendarPage() {
 
   const navigateMonth = (direction: "prev" | "next") => {
     if (direction === "prev") {
+      if (selectedYear === START_YEAR && selectedMonth === 0) return;
       if (selectedMonth === 0) { 
         setSelectedMonth(11); 
         setSelectedYear(selectedYear - 1) 
@@ -91,9 +93,13 @@ export default function CalendarPage() {
   }
 
   const years = useMemo(() => {
-    const currentYear = today.getFullYear()
-    return Array.from({ length: 6 }, (_, i) => currentYear - 5 + i)
-  }, [])
+  const currentYear = today.getFullYear();
+  // Generates array from 2026 up to current year + 1 (e.g., [2026, 2027])
+  return Array.from(
+    { length: currentYear - START_YEAR + 2 }, 
+    (_, i) => START_YEAR + i
+  );
+}, [today]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col relative overflow-hidden animate-fade-in">
@@ -171,11 +177,16 @@ export default function CalendarPage() {
       <div className="relative z-30 flex items-center justify-between px-6 py-6 border-b border-border/50 backdrop-blur-sm bg-background/80 animate-fade-in stagger-2">
         <Button 
           variant="ghost" 
+          // LOGIC CHANGE: Prevent going back if we are at Jan 2026
+          disabled={selectedYear === START_YEAR && (viewLevel === "year" || selectedMonth === 0)}
           onClick={() => viewLevel === "days" ? navigateMonth("prev") : setSelectedYear(selectedYear - 1)}
-          className="text-muted-foreground hover:text-accent hover:bg-accent/10 font-semibold px-6 py-6 rounded-xl transition-all duration-300 hover:scale-110 border border-transparent hover:border-accent/30"
+          className="text-muted-foreground hover:text-accent hover:bg-accent/10 font-semibold px-6 py-6 rounded-xl transition-all duration-300 hover:scale-110 border border-transparent hover:border-accent/30 disabled:opacity-30 disabled:hover:scale-100"
         >
           <ChevronLeft className="w-6 h-6 mr-2" /> 
-          {viewLevel === "days" ? "Previous" : selectedYear - 1}
+          {/* Display logic handles the label */}
+          {viewLevel === "days" 
+            ? (selectedYear === START_YEAR && selectedMonth === 0 ? "Start" : "Previous") 
+            : selectedYear - 1 < START_YEAR ? "Start" : selectedYear - 1}
         </Button>
         
         <div className="flex flex-col items-center">
