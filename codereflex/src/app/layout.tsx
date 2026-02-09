@@ -11,7 +11,6 @@ import { Geist } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
-import { ThemeToggle } from "./_components/theme-toggle";
 
 export const metadata: Metadata = {
   title: "CodeReflex",
